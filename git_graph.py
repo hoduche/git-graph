@@ -3,34 +3,34 @@ import subprocess
 import re
 import pygraphviz
 
-def get_git_files():
+def get_git_files(path):
     result = []
-    for each_dir in os.listdir('../.git/objects/'):
+    for each_dir in os.listdir(path + '/.git/objects/'):
         if each_dir != 'info' and each_dir != 'pack':
-            for each_file in os.listdir('../.git/objects/' + each_dir + '/'):
+            for each_file in os.listdir(path + '/.git/objects/' + each_dir + '/'):
                 result.append(each_dir + each_file)
     return result
 
-def get_git_file_type(sha1_file):
-    bashCommand = 'git cat-file -t ' + sha1_file
+def get_git_file_type(path, sha1_file):
+    bashCommand = 'git -C ' + path + ' cat-file -t ' + sha1_file
     output, error = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE).communicate()
     if output:
         output = output.decode('utf-8')
         return output.splitlines()[0]
 
-def read_git_file(sha1_file):
-    bashCommand = 'git cat-file -p ' + sha1_file
+def read_git_file(path, sha1_file):
+    bashCommand = 'git -C ' + path + ' cat-file -p ' + sha1_file
     output, error = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE).communicate()
     output = output.decode('utf-8')
     return output.splitlines()
 
-def build_git_nodes():
+def build_git_nodes(path):
     blobs = []
     trees = []
     commits = []
-    for each_git_file in get_git_files():
+    for each_git_file in get_git_files(path):
         each_git_file = each_git_file[:7]   # FIXME this can be skipped until display
-        git_file_type = get_git_file_type(each_git_file)
+        git_file_type = get_git_file_type(path, each_git_file)
         if git_file_type == 'blob':
             blobs.append(each_git_file)
         if git_file_type == 'tree':
@@ -41,8 +41,9 @@ def build_git_nodes():
 
 class GitGraph:
 
-    def __init__(self):
-        self.blobs, self.trees, self.commits = build_git_nodes()
+    def __init__(self, path):
+        self.path = path
+        self.blobs, self.trees, self.commits = build_git_nodes(self.path)
         self.tree_dependencies = self.__build_git_tree_dependencies()
         self.commit_dependencies = self.__build_git_commit_dependencies()
         self.graph = self.__build_git_graph()
@@ -52,7 +53,7 @@ class GitGraph:
 
     def __build_git_one_tree_dependencies(self, sha1_file_tree):
         dependencies = []
-        for each_line in read_git_file(sha1_file_tree):
+        for each_line in read_git_file(self.path, sha1_file_tree):
             pattern = 'tree (.+)\t(.+)'
             match = re.search(pattern, each_line)
             if match:
@@ -65,7 +66,7 @@ class GitGraph:
 
     def __build_git_one_commit_dependencies(self, sha1_file_tree):
         dependencies = []
-        for each_line in read_git_file(sha1_file_tree):
+        for each_line in read_git_file(self.path, sha1_file_tree):
             pattern = 'tree (.+)'
             match = re.search(pattern, each_line)
             if match:
