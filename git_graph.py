@@ -1,7 +1,10 @@
 import os
 import subprocess
 import re
-import pygraphviz
+
+import graphviz
+from IPython.display import Image
+
 
 def get_git_files(path):
     result = []
@@ -39,17 +42,24 @@ def build_git_nodes(path):
             commits.append(each_git_file)
     return blobs, trees, commits
 
+def display_git_graph(git_graph):
+    with open('auto.dot', 'w+') as digraph_file:
+        digraph_file.write(git_graph)
+    bashCommand = 'dot -Tpng auto.dot -o auto.png'
+    subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE).communicate()
+    return 'auto.png'
+
+
 class GitGraph:
 
     def __init__(self, path):
         self.path = path
+    
+    def build_graph(self):
         self.blobs, self.trees, self.commits = build_git_nodes(self.path)
         self.tree_dependencies = self.__build_git_tree_dependencies()
         self.commit_dependencies = self.__build_git_commit_dependencies()
-        self.graph = self.__build_git_graph()
-    
-    def get_graph(self):
-        return self.graph
+        return self.__build_git_graph()
 
     def __build_git_one_tree_dependencies(self, sha1_file_tree):
         dependencies = []
