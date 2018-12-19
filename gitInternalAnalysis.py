@@ -16,9 +16,10 @@
 # %load_ext autoreload
 # %autoreload 2
 # %autosave 0
+from IPython.display import Image
 import git_graph as gg
 
-path = 'examples/git_test'
+path = 'examples/git1'
 
 for each_git_file in gg.get_git_files(path):
     print(each_git_file)
@@ -33,11 +34,7 @@ print('blobs: ' + str(blobs))
 print('trees: ' + str(trees))
 print('commits: ' + str(commits))
 
-graph = gg.GitGraph(path)
-digraph = graph.get_graph()
-print(digraph)
-with open('auto.dot', 'w+') as digraph_file:
-    digraph_file.write(digraph)
+Image(gg.display_git_graph(gg.GitGraph(path).build_graph()))
 
 
 
@@ -47,5 +44,7 @@ ps = graphviz.Digraph(name='pet-shop', node_attr={'shape': 'plaintext'})
 #ps.node('dead')
 ps.edge('norwegian', 'blue')
 ps
+
+ps.view()
 
 print(ps)
