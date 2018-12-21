@@ -19,7 +19,7 @@
 from IPython.display import Image
 import git_graph as gg
 
-path = 'examples/git1'
+path = '.'
 
 for each_git_file in gg.get_git_files(path):
     print(each_git_file)
@@ -34,7 +34,15 @@ print('blobs: ' + str(blobs))
 print('trees: ' + str(trees))
 print('commits: ' + str(commits))
 
-Image(gg.display_git_graph(gg.GitGraph(path).build_graph()))
+Image(gg.display_git_graph(gg.GitGraph('.').build_graph()))
+
+graph = gg.GitGraph('.')
+graph.build_graph()
+graph.tree_dependencies
+
+graph.commit_dependencies
+
+
 
 
 

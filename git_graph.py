@@ -64,27 +64,19 @@ class GitGraph:
     def __build_git_one_tree_dependencies(self, sha1_file_tree):
         dependencies = []
         for each_line in read_git_file(self.path, sha1_file_tree):
-            pattern = 'tree (.+)\t(.+)'
+            pattern = '(tree|blob) (.+)\t(.+)'
             match = re.search(pattern, each_line)
             if match:
-                dependencies.append((sha1_file_tree[:7], match.group(1)[:7], match.group(2)))
-            pattern = 'blob (.+)\t(.+)'
-            match = re.search(pattern, each_line)
-            if match:
-                dependencies.append((sha1_file_tree[:7], match.group(1)[:7], match.group(2)))
+                dependencies.append((sha1_file_tree[:7], match.group(2)[:7], match.group(3)))
         return dependencies
 
     def __build_git_one_commit_dependencies(self, sha1_file_tree):
         dependencies = []
         for each_line in read_git_file(self.path, sha1_file_tree):
-            pattern = 'tree (.+)'
+            pattern = '(tree|parent) (.+)'
             match = re.search(pattern, each_line)
             if match:
-                dependencies.append((sha1_file_tree[:7], match.group(1)[:7]))
-            pattern = 'parent (.+)'
-            match = re.search(pattern, each_line)
-            if match:
-                dependencies.append((sha1_file_tree[:7], match.group(1)[:7]))
+                dependencies.append((sha1_file_tree[:7], match.group(2)[:7]))
         return dependencies
 
     def __build_git_tree_dependencies(self):
@@ -92,11 +84,6 @@ class GitGraph:
         for each_tree in self.trees:
             dependencies += self.__build_git_one_tree_dependencies(each_tree)
         return dependencies
-    #    or
-    #    dependencies= set()
-    #    for each_tree in self.trees:
-    #        dependencies.update(__build_git_one_tree_dependencies(each_tree))
-    #    return dependencies
 
     def __build_git_commit_dependencies(self):
         dependencies = []
