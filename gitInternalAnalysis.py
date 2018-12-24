@@ -19,32 +19,41 @@
 from IPython.display import Image
 import git_graph as gg
 
-path = '.'
+path = 'examples/branch'
 
-for each_git_file in gg.get_git_files(path):
+gg.get_git_head(path)
+
+gg.get_git_local_branches(path)
+
+gg.get_git_tags(path)
+
+for each_git_file in gg.get_git_object_files(path):
     print(each_git_file)
 
-print(gg.get_git_file_type(path, '73eab88'))
+print(gg.get_git_file_type(path, '3d06bbd'))
 
-for each_line in gg.read_git_file(path, '73eab88'):
-    print(each_line)
+gg.read_git_file(path, '3d06bbd')
 
-blobs, trees, commits = gg.build_git_nodes(path)
+gg.read_git_file(path, 'aee3d18')
+
+blobs, trees, commits, annotated_tags = gg.get_git_objects(path)
 print('blobs: ' + str(blobs))
 print('trees: ' + str(trees))
 print('commits: ' + str(commits))
+print('annotated tags: ' + str(annotated_tags))
 
-Image(gg.display_git_graph(gg.GitGraph('.').build_graph()))
+gg.get_git_annotated_tags(path, annotated_tags)
 
-graph = gg.GitGraph('.')
-graph.build_graph()
-graph.tree_dependencies
+gg.get_git_trees(path, trees)
 
-graph.commit_dependencies
+gg.get_git_commits(path, commits)
 
+Image(gg.GitGraph(path).build_graph().display())
 
+Image(gg.GitGraph(path).build_graph().display('hlc'))
 
-
+graph = gg.GitGraph(path).build_graph()
+graph.filter_nodes()
 
 import graphviz
 ps = graphviz.Digraph(name='pet-shop', node_attr={'shape': 'plaintext'})
