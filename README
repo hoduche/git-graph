@@ -2,3 +2,7 @@ Git stores its internal data as a Directed Acyclic Graph (DAG).
 It proposes a bunch of powerful commands.
 As Git is very lightweight, it is really easy to experiment the effects of the different commands.
 Being able to display git inner DAG after each command considerably helps the learning curve.
+
+This program proposes to display git inner DAG with the simple command:
+Image...
+
