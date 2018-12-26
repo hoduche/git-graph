@@ -1,0 +1,3 @@
+Git stores its internal data as a Directed Acyclic Graph.
+Being able to display it considerably helps the learning curve.
+As Git is very lightweight, it is really easy to experiment the effects of the different commands.
