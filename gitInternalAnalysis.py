@@ -50,16 +50,20 @@ gg.get_git_commits(path, commits)
 
 Image(gg.GitGraph(path).build_graph().display())
 
-Image(gg.GitGraph(path).build_graph().display('hlc'))
+Image(gg.GitGraph(path).build_graph().display())
 
 graph = gg.GitGraph(path).build_graph()
 graph.filter_nodes()
 
 import graphviz
-ps = graphviz.Digraph(name='pet-shop', node_attr={'shape': 'plaintext'})
-#ps.node('parrot')
-#ps.node('dead')
-ps.edge('norwegian', 'blue')
+ps = graphviz.Digraph(name='pet-shop', node_attr={'style': 'filled', 'fixedsize': 'true', 'width': '0.95'})
+ps.node('1234567', fillcolor="green")
+ps.node('9999999', fillcolor="#ffbb22")
+ps.node('norwayg', fillcolor="#ff0022")
+ps.node('v2', fillcolor="#ff6622")
+ps.edge('norwayg', '9999999')
+ps.edge('norwayg', '1234567')
+ps.edge('1234567', 'v2')
 ps
 
 ps.view()
