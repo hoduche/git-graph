@@ -8,9 +8,9 @@
 #       format_version: '1.3'
 #       jupytext_version: 0.8.6
 #   kernelspec:
-#     display_name: Python [conda env:jupy3]
+#     display_name: jupy3
 #     language: python
-#     name: conda-env-jupy3-py
+#     name: jupy3
 # ---
 
 # %load_ext autoreload
@@ -21,7 +21,7 @@ import git_graph as gg
 
 path = 'examples/branch'
 
-gg.get_git_head(path)
+gg.get_git_local_head(path)
 
 gg.get_git_local_branches(path)
 
