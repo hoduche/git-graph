@@ -24,8 +24,8 @@ def get_git_object_files(path):
 def get_git_file_type(path, sha1_file):
     if not _is_git_repository(path):
         return None
-    bashCommand = 'git -C ' + path + ' cat-file -t ' + sha1_file
-    output, error = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE).communicate()
+    bash_command = 'git -C ' + path + ' cat-file -t ' + sha1_file
+    output, error = subprocess.Popen(bash_command.split(), stdout=subprocess.PIPE).communicate()
     if output:
         output = output.decode('utf-8')
         return output.splitlines()[0]
@@ -34,8 +34,8 @@ def get_git_file_type(path, sha1_file):
 def read_git_file(path, sha1_file):
     if not _is_git_repository(path):
         return None
-    bashCommand = 'git -C ' + path + ' cat-file -p ' + sha1_file
-    output, error = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE).communicate()
+    bash_command = 'git -C ' + path + ' cat-file -p ' + sha1_file
+    output, error = subprocess.Popen(bash_command.split(), stdout=subprocess.PIPE).communicate()
     if output:
         output = output.decode('utf-8')
         return output.splitlines()

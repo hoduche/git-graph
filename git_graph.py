@@ -235,8 +235,8 @@ class GitGraph:
     def display(self, option=None):
         with open('auto.dot', 'w+') as digraph_file:
             digraph_file.write(self.build_dot_graph(option))
-        bashCommand = 'dot -Tpng auto.dot -o auto.png'
-        subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE).communicate()
+        bash_command = 'dot -Tpng auto.dot -o auto.png'
+        subprocess.Popen(bash_command.split(), stdout=subprocess.PIPE).communicate()
         return 'auto.png'
 
 
