@@ -23,6 +23,10 @@ import git_graph_display as gd
 
 path = '.'
 
+gg.get_git_remote_servers(path)
+
+gg.get_git_remote_branches(path, gg.get_git_remote_servers(path))
+
 gd.display_git_graph(path)
 
 gd.display(gg.GitGraph(path))

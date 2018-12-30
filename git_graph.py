@@ -7,19 +7,28 @@ import pathlib
 import git_functions as gf
 
 
-def get_git_remote_branches(path):
-#    result = collections.defaultdict(list)
-    for each_folder in os.listdir(path + '/.git/refs/remotes/'):
-        for each_file in os.listdir(path + '/.git/refs/remotes/' + each_folder + '/'):
-            with open(path + '/.git/refs/remotes/' + each_folder + '/' + each_file, 'r') as each_file_content:
+def get_git_remote_servers(path):
+    result = collections.defaultdict(list)
+    if pathlib.Path(path + '/.git/refs/remotes/').is_dir():
+        for each_folder in os.listdir(path + '/.git/refs/remotes/'):
+            for each_file in os.listdir(path + '/.git/refs/remotes/' + each_folder + '/'):
+                result[each_folder].append(each_folder[:2] + '/' + each_file)
+    return result
+
+
+def get_git_remote_branches(path, remote_servers):
+    result = collections.defaultdict(list)
+    for each_server in remote_servers:
+        folder = path + '/.git/refs/remotes/' + each_server + '/'
+        for each_file in os.listdir(folder):
+            with open(folder + each_file, 'r') as each_file_content:
                 if each_file == 'HEAD':
                     line = each_file_content.readline()
-                    info = line[line.rfind('/') + 1:-1]
-                    print(each_folder + '/' + each_file + ' -> ' + info)
+                    remote_branch = line[line.rfind('/') + 1:-1]
+                    result[each_server[:2] + '/' + each_file].append(each_server[:2] + '/' + remote_branch)
                 else:
-                    print(each_folder + '/' + each_file + ' -> ' + each_file_content.readline()[:7])
-                #result[each_file].append(each_file_content.readline()[:7])
-#    return result
+                    result[each_server[:2] + '/' + each_file].append(each_file_content.read().splitlines()[0])
+    return result
 
 
 def __parse_oneline_content_git_folder(path, folder):
@@ -111,9 +120,9 @@ class GitGraph:
         self.commits = get_git_commits(self.path, commits)
         self.local_branches = get_git_local_branches(self.path)
         self.local_head = get_git_local_head(self.path)
-#        self.remote_servers = 
-#        self.remote_branches = get_git_remote_branches(self.path)
+        self.remote_servers = get_git_remote_servers(self.path)
+        self.remote_branches = get_git_remote_branches(self.path, self.remote_servers)
 #        self.remote_heads = 
-        self.annotated_tags = get_git_annotated_tags(self.path, annotated_tags)
         self.tags = get_git_tags(self.path)
+        self.annotated_tags = get_git_annotated_tags(self.path, annotated_tags)
         return self
