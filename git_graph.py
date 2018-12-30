@@ -103,8 +103,8 @@ class GitGraph:
     def __init__(self, path):
         self.path = path
         self.blobs = []                                      # b: color #9ccc66 (green)  - point to nothing
-        self.trees = collections.defaultdict(list)           # t: color #9f7160 (maroon) - point to 0 to N blobs and 0 to N trees
-        self.commits = collections.defaultdict(list)         # c: color #b3e5fc (blue)   - point to 1 tree and 0 to N commits
+        self.trees = collections.defaultdict(list)           # t: color #bc9b8f (maroon) - point to 0 to N blobs and 0 to N trees
+        self.commits = collections.defaultdict(list)         # c: color #6cccf9 (blue)   - point to 1 tree and 0 to N commits
         self.local_branches = collections.defaultdict(list)  # l: color #ffc61a (yellow) - point to 1 commit
         self.local_head = collections.defaultdict(list)      # h: color #cc99ff (violet) - point to 1 local_branch
         self.remote_servers = collections.defaultdict(list)  # s: color #ff9988 (salmon) - point to 1 to N remote_branches
