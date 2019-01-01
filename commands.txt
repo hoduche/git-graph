@@ -1,0 +1,34 @@
+-------------------------------------
+git branch -vv --abbrev=0
+-------------------------------------
+list all local branches with their pointed commit hash and their upstream branch if any + the local HEAD as '*'
+ex:
+git branch -vv --abbrev=0
+  docu           63e89ea8d3cc887dd52fddbd606acd86c1423f9e [origin/docu] add command in README
+  graph_display  50d0be5c6d16819e1fb296361164b1d130cba258 add unit tests
+  graph_display2 50d0be5c6d16819e1fb296361164b1d130cba258 add unit tests
+* master         50d0be5c6d16819e1fb296361164b1d130cba258 [origin/master] add unit tests
+  tata           f166e7327ee8b6c1a9487a623fe12782938b1f5f [origin/graph_display] improve colors
+
+-------------------------------------
+git branch -rv --abbrev=0
+-------------------------------------
+list all remote-tracking branches with their pointed commit hash (truncated) + the remote HEADs with their pointed branch
+ex:
+ git branch -rv --abbrev=0
+  origin/HEAD          -> origin/master
+  origin/docu          63e89ea8d3cc887dd52fddbd606acd86c1423f9e add command in README
+  origin/graph_display f166e7327ee8b6c1a9487a623fe12782938b1f5f improve colors
+  origin/master        50d0be5c6d16819e1fb296361164b1d130cba258 add unit tests
+
+-------------------------------------
+git rev-parse
+-------------------------------------
+on each branch gives the hash of the pointed commit
+ex:
+git rev-parse docu
+63e89ea8d3cc887dd52fddbd606acd86c1423f9e
+git rev-parse origin/master
+50d0be5c6d16819e1fb296361164b1d130cba258
+
+
