@@ -33,10 +33,10 @@ def get_git_file_type(path, sha1_file):
 
 def read_git_file(path, sha1_file):
     if not _is_git_repository(path):
-        return None
+        return []
     bash_command = 'git -C ' + path + ' cat-file -p ' + sha1_file
     output, error = subprocess.Popen(bash_command.split(), stdout=subprocess.PIPE).communicate()
-    if output:
+    if not error:
         output = output.decode('utf-8')
         return output.splitlines()
 
