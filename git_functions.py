@@ -1,60 +1,41 @@
-import os
 import pathlib
 import subprocess
 
 
-def _is_git_repository(path):
+def execute_git_command(path, command):
     is_repo = pathlib.Path(path + '/.git').is_dir()
     if not is_repo:
         print('Not a git repository')
-    return is_repo
-
-
-def get_git_object_files(path):
-    if not _is_git_repository(path):
-        return None
-    result = []
-    for each_dir in os.listdir(path + '/.git/objects/'):
-        if each_dir != 'info' and each_dir != 'pack':
-            for each_file in os.listdir(path + '/.git/objects/' + each_dir + '/'):
-                result.append(each_dir + each_file)
-    return result
-
-
-def get_git_file_type(path, sha1_file):
-    if not _is_git_repository(path):
-        return None
-    bash_command = 'git -C ' + path + ' cat-file -t ' + sha1_file
-    output, error = subprocess.Popen(bash_command.split(), stdout=subprocess.PIPE).communicate()
-    if output:
-        output = output.decode('utf-8')
-        return output.splitlines()[0]
-
-
-def read_git_file(path, sha1_file):
-    if not _is_git_repository(path):
         return []
-    bash_command = 'git -C ' + path + ' cat-file -p ' + sha1_file
+    bash_command = 'git -C ' + path + ' ' + command
     output, error = subprocess.Popen(bash_command.split(), stdout=subprocess.PIPE).communicate()
     if not error:
         output = output.decode('utf-8')
         return output.splitlines()
+    else:
+        print('Not a git command')
+        return []
+
+
+def read_git_file(path, sha1_file):
+    return execute_git_command(path, 'cat-file -p ' + sha1_file)
+
+
+def get_git_references(path):
+    references = [line.split() for line in execute_git_command(path, 'for-each-ref')]
+    lbr = 'refs/heads/'
+    local_branches = [(ref[2][len(lbr):], ref[0]) for ref in references if ref[2].startswith(lbr)]
+    rbr = 'refs/remotes/'
+    remote_branches = [(ref[2][len(rbr):], ref[0]) for ref in references if ref[2].startswith(rbr)]
+    tr = 'refs/tags/'
+    tags = [(ref[2][len(tr):], ref[0]) for ref in references if ref[2].startswith(tr)]
+    return local_branches, remote_branches, tags
 
 
 def get_git_objects(path):
-    blobs = []
-    trees = []
-    commits = []
-    annotated_tags = []
-    for each_git_file in get_git_object_files(path):
-        git_file_type = get_git_file_type(path, each_git_file)
-        if git_file_type == 'blob':
-            blobs.append(each_git_file)
-        if git_file_type == 'tree':
-            trees.append(each_git_file)
-        if git_file_type == 'commit':
-            commits.append(each_git_file)
-        if git_file_type == 'tag':
-            annotated_tags.append(each_git_file)
+    objects = [line.split() for line in execute_git_command(path, 'cat-file --batch-check --batch-all-objects')]
+    blobs = [obj[0] for obj in objects if obj[1] == 'blob']
+    trees = [obj[0] for obj in objects if obj[1] == 'tree']
+    commits = [obj[0] for obj in objects if obj[1] == 'commit']
+    annotated_tags = [obj[0] for obj in objects if obj[1] == 'tag']
     return blobs, trees, commits, annotated_tags
-

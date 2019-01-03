@@ -7,27 +7,17 @@ import pathlib
 import git_functions as gf
 
 
-def get_git_remote_servers(path):
+def build_git_remote_servers(remote_branches):
     result = collections.defaultdict(list)
-    if pathlib.Path(path + '/.git/refs/remotes/').is_dir():
-        for each_folder in os.listdir(path + '/.git/refs/remotes/'):
-            for each_file in os.listdir(path + '/.git/refs/remotes/' + each_folder + '/'):
-                result[each_folder].append(each_file)
+    for rb in remote_branches:
+        result[rb[0][:rb[0].find('/')]].append(rb[0][rb[0].find('/') + 1:])
     return result
 
 
-def get_git_remote_branches(path, remote_servers):
+def build_git_remote_branches(remote_branches):
     result = {}
-    for each_server in remote_servers:
-        folder = path + '/.git/refs/remotes/' + each_server + '/'
-        for each_file in os.listdir(folder):
-            with open(folder + each_file, 'r') as each_file_content:
-                line = each_file_content.read().splitlines()[0]
-                if each_file == 'HEAD':
-                    remote_branch = line[line.rfind('/') + 1:-1]
-                    result[(each_server, each_file)] = remote_branch
-                else:
-                    result[(each_server, each_file)] = line
+    for rb in remote_branches:
+        result[(rb[0][:rb[0].find('/')], rb[0][rb[0].find('/') + 1:])] = rb[1]
     return result
 
 
@@ -113,13 +103,16 @@ class GitGraph:
         self.tags = {}                                       # g: color #ff66b3 (pink)   - point to 1 commit or 1 annotated_tag
 
     def build_graph(self):
-        self.blobs, trees, commits, annotated_tags = gf.get_git_objects(self.path)
+        blobs, trees, commits, annotated_tags = gf.get_git_objects(self.path)
+        local_branches, remote_branches, tags = gf.get_git_references(self.path)
+
+        self.blobs = blobs
         self.trees = get_git_trees(self.path, trees)
         self.commits = get_git_commits(self.path, commits)
         self.local_branches = get_git_local_branches(self.path)
         self.local_head = get_git_local_head(self.path)
-        self.remote_servers = get_git_remote_servers(self.path)
-        self.remote_branches = get_git_remote_branches(self.path, self.remote_servers)
+        self.remote_servers = build_git_remote_servers(remote_branches)
+        self.remote_branches = build_git_remote_branches(remote_branches)
 #        self.remote_heads = 
         self.tags = get_git_tags(self.path)
         self.annotated_tags = get_git_annotated_tags(self.path, annotated_tags)
