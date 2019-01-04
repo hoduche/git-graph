@@ -242,6 +242,10 @@ git rev-list --tags --all
 git rev-list --objects --all | git cat-file --batch-check='%(objectname) %(objecttype) %(rest)' | grep '^[^ ]* blob' | cut -d" " -f1,3-
 
 
+git rev-parse
+cat .git/HEAD
+git symbolic-ref HEAD -q
+
 
 -------------------------------------
 git rev-parse

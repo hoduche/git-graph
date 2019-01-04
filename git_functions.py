@@ -26,10 +26,10 @@ def get_git_references(path):
     lbr = 'refs/heads/'
     local_branches = [(ref[2][len(lbr):], ref[0]) for ref in references if ref[2].startswith(lbr)]
     rbr = 'refs/remotes/'
-    remote_branches = [(ref[2][len(rbr):], ref[0]) for ref in references if ref[2].startswith(rbr)]
+    remotes = [(ref[2][len(rbr):], ref[0]) for ref in references if ref[2].startswith(rbr)]
     tr = 'refs/tags/'
     tags = [(ref[2][len(tr):], ref[0]) for ref in references if ref[2].startswith(tr)]
-    return local_branches, remote_branches, tags
+    return local_branches, remotes, tags
 
 
 def get_git_objects(path):
@@ -39,3 +39,9 @@ def get_git_objects(path):
     commits = [obj[0] for obj in objects if obj[1] == 'commit']
     annotated_tags = [obj[0] for obj in objects if obj[1] == 'tag']
     return blobs, trees, commits, annotated_tags
+
+
+def get_git_heads(path):
+    lines = execute_git_command(path, 'branch -avv --abbrev=0')
+    heads = [line for line in lines if line.startswith('* ')]
+    return heads
