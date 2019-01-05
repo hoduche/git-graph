@@ -17,14 +17,6 @@ def build_git_remotes(remotes):
     return remote_servers, remote_branches
 
 
-def get_git_local_head(path):
-    with open(path + '/.git/HEAD', 'r') as head_content:
-        line = head_content.readline()
-        local_branch = line[line.rfind('/') + 1:-1]
-        result = ('HEAD', local_branch)
-    return result
-
-
 def get_git_trees(path, trees):
     result = collections.defaultdict(list)
     pattern = '(tree|blob) (.+)\t(.+)'
@@ -74,6 +66,7 @@ class GitGraph:
         self.tags = {}                                       # g: color #ff66b3 (pink)   - point to 1 commit or 1 annotated_tag
 
     def build_graph(self):
+        local_head = gf.get_git_local_head(self.path)
         blobs, trees, commits, annotated_tags = gf.get_git_objects(self.path)
         local_branches, remotes, tags = gf.get_git_references(self.path)
 
@@ -81,7 +74,7 @@ class GitGraph:
         self.trees = get_git_trees(self.path, trees)
         self.commits = get_git_commits(self.path, commits)
         self.local_branches = {lb[0]: lb[1] for lb in local_branches}
-        self.local_head = get_git_local_head(self.path)
+        self.local_head = ('HEAD', local_head)
         self.remote_servers, self.remote_branches = build_git_remotes(remotes)
 #        self.remote_heads =
         self.tags = {t[0]: t[1] for t in tags}
