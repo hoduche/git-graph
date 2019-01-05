@@ -26,21 +26,6 @@ def read_git_file(path, sha1_file):
     return execute_git_command(path, 'cat-file -p ' + sha1_file)
 
 
-def get_git_remote_heads(path):
-    lines = execute_git_command(path, 'branch -avv --abbrev=0')
-    heads = [line for line in lines if line.startswith('* ')]
-    return heads
-
-
-def get_git_local_head(path):
-    symbolic_ref = execute_git_command(path, 'symbolic-ref HEAD -q')
-    if symbolic_ref:
-        return symbolic_ref[0][len(lbr):]
-    else:
-        commit = execute_git_command(path, 'rev-parse HEAD')
-        return commit
-
-
 def get_git_objects(path):
     objects = [line.split() for line in execute_git_command(path, 'cat-file --batch-check --batch-all-objects')]
     blobs = [obj[0] for obj in objects if obj[1] == 'blob']
@@ -56,3 +41,19 @@ def get_git_references(path):
     remotes = [(ref[2][len(rbr):], ref[0]) for ref in references if ref[2].startswith(rbr)]
     tags = [(ref[2][len(tr):], ref[0]) for ref in references if ref[2].startswith(tr)]
     return local_branches, remotes, tags
+
+
+def get_git_local_head(path):
+    symbolic_ref = execute_git_command(path, 'symbolic-ref HEAD -q')
+    if symbolic_ref:
+        return symbolic_ref[0][len(lbr):]
+    else:
+        commit = execute_git_command(path, 'rev-parse HEAD')
+        return commit
+
+
+def get_git_remote_heads(path):
+    lines = execute_git_command(path, 'branch -avv --abbrev=0')
+    heads = [line for line in lines if line.startswith('* ')]
+    return heads
+
