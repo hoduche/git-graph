@@ -7,12 +7,7 @@ import git_graph as gg
 full_option = 'dchatsglurb'
 
 
-def display_git_graph(path, option=None, form='png', temp=False):
-    display(gg.GitGraph(path), option, form, temp)
-
-
-def display(git_graph, option=None, form='png', temp=False):
-    dot_graph = build_dot_graph(git_graph.build_graph(), option, form)
+def display(dot_graph, temp=False):
     if temp:
         dot_graph.view(tempfile.mktemp('auto.dot'))
     else:
@@ -48,9 +43,10 @@ def filter_nodes(git_graph, option=None):
     return node_set
 
 
-def build_dot_graph(git_graph, option=None, form='png'):
+def build_dot_graph(path, option=None, form='png'):
     if not option:
         option = full_option
+    git_graph = gg.GitGraph(path).build_graph()
     node_set = filter_nodes(git_graph, option)
     dot_graph = graphviz.Digraph(name='auto', format=form,
                              graph_attr={'bgcolor': 'transparent'},
