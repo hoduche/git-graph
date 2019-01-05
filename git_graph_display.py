@@ -5,7 +5,7 @@ import graphviz
 import git_graph as gg
 
 
-full_option = 'chatblrsgd'
+full_option = 'dchatsglurb'
 
 
 def display_git_graph(path, option=None, temp=False):
@@ -84,6 +84,11 @@ def build_dot_graph(git_graph, option=None):
             e = git_graph.tags[g]
             if e in node_set:
                 dot_graph.edge(g, e)
+    if 'u' in option:
+        for u in git_graph.upstreams:
+            e = git_graph.upstreams[u]
+            if e in node_set:
+                dot_graph.edge(u, e)
     return dot_graph
 
 
@@ -111,4 +116,6 @@ def filter_nodes(git_graph, option=None):
         node_set.update(git_graph.annotated_tags)
     if 'g' in option:
         node_set.update(git_graph.tags)
+    if 'u' in option:
+        pass
     return node_set

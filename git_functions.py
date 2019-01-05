@@ -58,3 +58,10 @@ def get_git_remote_heads(path):
     remote_heads = {ls[0]: ls[2] for ls in lines_split}
     return remote_heads
 
+
+def get_git_upstreams(path):
+    lines = execute_git_command(path, 'branch -vv --abbrev=0')
+    lines_split = [line[2:].split() for line in lines if '[' in line]
+    upstreams = {ls[2][1:-1]: ls[0] for ls in lines_split}
+    return upstreams
+

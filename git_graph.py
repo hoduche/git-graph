@@ -62,12 +62,14 @@ class GitGraph:
         self.remote_servers = collections.defaultdict(list)  # s: color #ff9988 (salmon) - point to 1 to N remote_branches
         self.annotated_tags = {}                             # a: color #00cc99 (turquo) - point to 1 commit
         self.tags = {}                                       # g: color #ff66b3 (pink)   - point to 1 commit or 1 annotated_tag
+        self.upstreams = {}                                  # u: no color (only edges)  - point to 1 local_branch
 
     def build_graph(self):
         blobs, trees, commits, annotated_tags = gf.get_git_objects(self.path)
         local_branches, remote_branches, tags = gf.get_git_references(self.path)
         local_head = gf.get_git_local_head(self.path)
         remote_heads = gf.get_git_remote_heads(self.path)
+        upstreams = gf.get_git_upstreams(self.path)
 
         self.blobs = blobs
         self.trees = build_git_trees(self.path, trees)
@@ -79,4 +81,5 @@ class GitGraph:
         self.remote_servers = build_git_remote_servers(remote_branches, remote_heads)
         self.annotated_tags = build_git_annotated_tags(self.path, annotated_tags)
         self.tags = tags
+        self.upstreams = upstreams
         return self
