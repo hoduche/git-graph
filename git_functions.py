@@ -37,10 +37,10 @@ def get_git_objects(path):
 
 def get_git_references(path):
     references = [line.split() for line in execute_git_command(path, 'for-each-ref')]
-    local_branches = [(ref[2][len(lbr):], ref[0]) for ref in references if ref[2].startswith(lbr)]
-    remotes = [(ref[2][len(rbr):], ref[0]) for ref in references if ref[2].startswith(rbr)]
-    tags = [(ref[2][len(tr):], ref[0]) for ref in references if ref[2].startswith(tr)]
-    return local_branches, remotes, tags
+    local_branches = {ref[2][len(lbr):]: ref[0] for ref in references if ref[2].startswith(lbr)}
+    remote_branches = {ref[2][len(rbr):]: ref[0] for ref in references if ref[2].startswith(rbr) and '/HEAD' not in ref[2]}
+    tags = {ref[2][len(tr):]: ref[0] for ref in references if ref[2].startswith(tr)}
+    return local_branches, remote_branches, tags
 
 
 def get_git_local_head(path):
@@ -53,7 +53,8 @@ def get_git_local_head(path):
 
 
 def get_git_remote_heads(path):
-    lines = execute_git_command(path, 'branch -avv --abbrev=0')
-    heads = [line for line in lines if line.startswith('* ')]
-    return heads
+    lines = execute_git_command(path, 'branch -rv --abbrev=0')
+    lines_split = [line.split() for line in lines if '/HEAD ' in line]
+    remote_heads = {ls[0]: ls[2] for ls in lines_split}
+    return remote_heads
 

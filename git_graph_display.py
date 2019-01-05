@@ -5,7 +5,7 @@ import graphviz
 import git_graph as gg
 
 
-full_option = 'chatblrsg'
+full_option = 'chatblrsgd'
 
 
 def display_git_graph(path, option=None, temp=False):
@@ -54,31 +54,36 @@ def build_dot_graph(git_graph, option=None):
         e = git_graph.local_head[1]
         if e in node_set:
             dot_graph.edge(h, e)
+    if 'r' in option:
+        for r in git_graph.remote_branches:
+            dot_graph.node(r, label=r[r.find('/') + 1:][:7], fillcolor="#ff6666")
+            e = git_graph.remote_branches[r]
+            if e in node_set:
+                dot_graph.edge(r, e)
+    if 'd' in option:
+        for d in git_graph.remote_heads:
+            dot_graph.node(d, label=d[d.find('/') + 1:][:7], fillcolor="#ffa366")
+            e = git_graph.remote_heads[d]
+            if e in node_set:
+                dot_graph.edge(d, e)
     if 's' in option:
         for s in git_graph.remote_servers:
             dot_graph.node(s, label=s[:7], fillcolor="#ff9988")
             for e in git_graph.remote_servers[s]:
-                if (s, e) in node_set:
-                    dot_graph.edge(s, s + '/' + e)
-    if 'r' in option:
-        for r in git_graph.remote_branches:
-            full_name = r[0] + '/' + r[1]
-            dot_graph.node(full_name, label=r[1][:7], fillcolor="#ff6666")
-            e = git_graph.remote_branches[r]
-            if e in node_set:
-                dot_graph.edge(full_name, e)
-    if 'g' in option:
-        for g in git_graph.tags:
-            dot_graph.node(g, label=g[:7], fillcolor="#ff66b3")
-            e = git_graph.tags[g]
-            if e in node_set:
-                dot_graph.edge(g, e)
+                if e in node_set:
+                    dot_graph.edge(s, e)
     if 'a' in option:
         for a in git_graph.annotated_tags:
             dot_graph.node(a, label=a[:7], fillcolor="#00cc99")
             e = git_graph.annotated_tags[a]
             if e in node_set:
                 dot_graph.edge(a, e)
+    if 'g' in option:
+        for g in git_graph.tags:
+            dot_graph.node(g, label=g[:7], fillcolor="#ff66b3")
+            e = git_graph.tags[g]
+            if e in node_set:
+                dot_graph.edge(g, e)
     return dot_graph
 
 
@@ -96,12 +101,14 @@ def filter_nodes(git_graph, option=None):
         node_set.update(git_graph.local_branches)
     if 'h' in option:
         node_set.update(git_graph.local_head[0])
-    if 's' in option:
-        node_set.update(git_graph.remote_servers)
     if 'r' in option:
         node_set.update(git_graph.remote_branches)
-    if 'g' in option:
-        node_set.update(git_graph.tags)
+    if 'd' in option:
+        node_set.update(git_graph.remote_heads)
+    if 's' in option:
+        node_set.update(git_graph.remote_servers)
     if 'a' in option:
         node_set.update(git_graph.annotated_tags)
+    if 'g' in option:
+        node_set.update(git_graph.tags)
     return node_set

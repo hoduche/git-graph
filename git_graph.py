@@ -26,17 +26,15 @@ def build_git_commits(path, commits):
     return result
 
 
-def build_git_remotes(remotes):
-    remote_servers = collections.defaultdict(list)
-    remote_branches = {}
-    for r in remotes:
-        separator_index = r[0].find('/')
-        server = r[0][:separator_index]
-        branch = r[0][separator_index + 1:]
-        commit = r[1]
-        remote_servers[server].append(branch)
-        remote_branches[(server, branch)] = commit
-    return remote_servers, remote_branches
+def build_git_remote_servers(remote_branches, remote_heads):
+    result = collections.defaultdict(list)
+    for rb in remote_branches:
+        server = rb[:rb.find('/')]
+        result[server].append(rb)
+    for rb in remote_heads:
+        server = rb[:rb.find('/')]
+        result[server].append(rb)
+    return result
 
 
 def build_git_annotated_tags(path, annotated_tags):
@@ -67,16 +65,18 @@ class GitGraph:
 
     def build_graph(self):
         blobs, trees, commits, annotated_tags = gf.get_git_objects(self.path)
-        local_branches, remotes, tags = gf.get_git_references(self.path)
+        local_branches, remote_branches, tags = gf.get_git_references(self.path)
         local_head = gf.get_git_local_head(self.path)
+        remote_heads = gf.get_git_remote_heads(self.path)
 
         self.blobs = blobs
         self.trees = build_git_trees(self.path, trees)
         self.commits = build_git_commits(self.path, commits)
-        self.local_branches = {lb[0]: lb[1] for lb in local_branches}
+        self.local_branches = local_branches
         self.local_head = ('HEAD', local_head)
-        self.remote_servers, self.remote_branches = build_git_remotes(remotes)
-#        self.remote_heads =
+        self.remote_branches = remote_branches
+        self.remote_heads = remote_heads
+        self.remote_servers = build_git_remote_servers(remote_branches, remote_heads)
         self.annotated_tags = build_git_annotated_tags(self.path, annotated_tags)
-        self.tags = {t[0]: t[1] for t in tags}
+        self.tags = tags
         return self
