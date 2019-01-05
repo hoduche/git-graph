@@ -1,11 +1,11 @@
-import collections
+import collections as c
 import re
 
 import git_functions as gf
 
 
 def build_git_trees(path, trees):
-    result = collections.defaultdict(list)
+    result = c.defaultdict(list)
     pattern = '(tree|blob) (.+)\t(.+)'
     for each_tree in trees:
         for each_line in gf.read_git_file(path, each_tree):
@@ -16,7 +16,7 @@ def build_git_trees(path, trees):
 
 
 def build_git_commits(path, commits):
-    result = collections.defaultdict(list)
+    result = c.defaultdict(list)
     pattern = '(tree|parent) (.+)'
     for each_commit in commits:
         for each_line in gf.read_git_file(path, each_commit):
@@ -27,7 +27,7 @@ def build_git_commits(path, commits):
 
 
 def build_git_remote_servers(remote_branches, remote_heads):
-    result = collections.defaultdict(list)
+    result = c.defaultdict(list)
     for rb in remote_branches:
         server = rb[:rb.find('/')]
         result[server].append(rb)
@@ -52,17 +52,17 @@ class GitGraph:
 
     def __init__(self, path):
         self.path = path
-        self.blobs = []                                      # b: color #9ccc66 (green)  - point to nothing
-        self.trees = collections.defaultdict(list)           # t: color #bc9b8f (maroon) - point to 0 to N blobs and 0 to N trees
-        self.commits = collections.defaultdict(list)         # c: color #6cccf9 (blue)   - point to 1 tree and 0 to N commits
-        self.local_branches = {}                             # l: color #ffc61a (yellow) - point to 1 commit
-        self.local_head = ('', '')                           # h: color #cc99ff (violet) - point to 1 local_branch
-        self.remote_branches = {}                            # r: color #ff6666 (red)    - point to 1 commit
-        self.remote_heads = {}                               # d: color #ffa366 (orange) - point to 1 remote branch
-        self.remote_servers = collections.defaultdict(list)  # s: color #ff9988 (salmon) - point to 1 to N remote_branches
-        self.annotated_tags = {}                             # a: color #00cc99 (turquo) - point to 1 commit
-        self.tags = {}                                       # g: color #ff66b3 (pink)   - point to 1 commit or 1 annotated_tag
-        self.upstreams = {}                                  # u: no color (only edges)  - point to 1 local_branch
+        self.blobs = []                            # b: -> nothing
+        self.trees = c.defaultdict(list)           # t: -> 0 to N blobs and 0 to N trees
+        self.commits = c.defaultdict(list)         # c: -> 1 tree and 0 to N commits
+        self.local_branches = {}                   # l: -> 1 commit
+        self.local_head = ('', '')                 # h: -> 1 local_branch
+        self.remote_branches = {}                  # r: -> 1 commit
+        self.remote_heads = {}                     # d: -> 1 remote branch
+        self.remote_servers = c.defaultdict(list)  # s: -> 1 to N remote_branches
+        self.annotated_tags = {}                   # a: -> 1 commit
+        self.tags = {}                             # g: -> 1 commit or 1 annotated_tag
+        self.upstreams = {}                        # u: -> 1 local_branch
 
     def build_graph(self):
         blobs, trees, commits, annotated_tags = gf.get_git_objects(self.path)

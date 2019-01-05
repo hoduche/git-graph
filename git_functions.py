@@ -1,7 +1,6 @@
 import pathlib
 import subprocess
 
-
 lbr = 'refs/heads/'
 rbr = 'refs/remotes/'
 tr = 'refs/tags/'
