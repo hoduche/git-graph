@@ -20,10 +20,8 @@ import git_graph as gg
 import git_functions as gf
 import git_graph_display as gd
 
-path = 'examples/allChords'
+path = 'examples/branch'
 
-graph = gd.build_dot_graph(path, option='lhrdsu')
-graph
+gd.build_dot_graph(path, option='bt')
 
-graph = gd.build_dot_graph(path, option='lhrdsu')
-gd.render(graph)
+gd.render(gd.build_dot_graph(path))
