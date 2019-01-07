@@ -7,9 +7,10 @@ import git_graph as gg
 full_option = 'dchatsglurb'
 
 
-def display(dot_graph, temp=False):
-    if temp:
-        dot_graph.view(tempfile.mktemp('auto.dot'))
+def render(dot_graph, multiple=True):
+    if multiple:
+        temp_file = tempfile.mkstemp(prefix='auto.', suffix='.dot', dir='.')
+        dot_graph.view(temp_file[1])
     else:
         dot_graph.render('auto.dot', view=False)
 

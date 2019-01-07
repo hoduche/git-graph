@@ -8,9 +8,9 @@
 #       format_version: '1.3'
 #       jupytext_version: 0.8.6
 #   kernelspec:
-#     display_name: jupy3
+#     display_name: Python [conda env:jupy3]
 #     language: python
-#     name: jupy3
+#     name: conda-env-jupy3-py
 # ---
 
 # %load_ext autoreload
@@ -20,10 +20,10 @@ import git_graph as gg
 import git_functions as gf
 import git_graph_display as gd
 
-path = 'examples/branch'
+path = 'examples/allChords'
 
-graph = gd.build_dot_graph(path, option='chatblr')
+graph = gd.build_dot_graph(path, option='lhrdsu')
 graph
 
-graph = gd.build_dot_graph(path, option='chatblr')
-gd.display(graph, temp=True)
+graph = gd.build_dot_graph(path, option='lhrdsu')
+gd.render(graph)
