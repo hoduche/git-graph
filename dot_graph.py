@@ -1,19 +1,12 @@
 import tempfile
 
 import graphviz
+import pathlib
 
 import git_graph as gg
 
 full_option = 'dchatsglurb'
 short = 7
-
-
-def render(dot_graph, multiple=True):
-    if multiple:
-        temp_file = tempfile.mkstemp(prefix='auto.', suffix='.dot', dir='.')
-        dot_graph.view(temp_file[1])
-    else:
-        dot_graph.render('auto.dot', view=False)
 
 
 def filter_nodes(git_graph, option=full_option):
@@ -43,72 +36,85 @@ def filter_nodes(git_graph, option=full_option):
     return node_set
 
 
-def build_dot_graph(path, option=full_option, form='pdf'):
-    git_graph = gg.GitGraph(path).build_graph()
-    node_set = filter_nodes(git_graph, option)
-    dot_graph = graphviz.Digraph(name='auto', format=form,
-                             graph_attr={'bgcolor': 'transparent'},
-                             node_attr={'style': 'filled', 'fixedsize': 'true', 'width': '0.95'})
-    if 'b' in option:
-        for b in git_graph.blobs:
-            dot_graph.node(b, label=b[:short], fillcolor="#9ccc66")  # green
-    if 't' in option:
-        for t in git_graph.trees:
-            dot_graph.node(t, label=t[:short], fillcolor="#bc9b8f")  # brown
-            for e in git_graph.trees[t]:
-                if e[0] in node_set:
-                    dot_graph.edge(t, e[0])
-    if 'c' in option:
-        for c in git_graph.commits:
-            dot_graph.node(c, label=c[:short], fillcolor="#85d5fa")  # blue
-            for e in git_graph.commits[c]:
+class DotGraph(graphviz.Digraph):
+
+    def __init__(self, path, option=full_option):
+        graphviz.Digraph.__init__(self, name='auto',
+                                  graph_attr={'bgcolor': 'transparent'},
+                                  node_attr={'style': 'filled', 'fixedsize': 'true', 'width': '0.95'})
+        self.path = path
+        git_graph = gg.GitGraph(self.path).build_graph()
+        node_set = filter_nodes(git_graph, option)
+        if 'b' in option:
+            for b in git_graph.blobs:
+                self.node(b, label=b[:short], fillcolor="#9ccc66")  # green
+        if 't' in option:
+            for t in git_graph.trees:
+                self.node(t, label=t[:short], fillcolor="#bc9b8f")  # brown
+                for e in git_graph.trees[t]:
+                    if e[0] in node_set:
+                        self.edge(t, e[0])
+        if 'c' in option:
+            for c in git_graph.commits:
+                self.node(c, label=c[:short], fillcolor="#85d5fa")  # blue
+                for e in git_graph.commits[c]:
+                    if e in node_set:
+                        self.edge(c, e)
+        if 'l' in option:
+            for l in git_graph.local_branches:
+                self.node(l, label=l[:short], fillcolor="#9999ff")  # violet
+                e = git_graph.local_branches[l]
                 if e in node_set:
-                    dot_graph.edge(c, e)
-    if 'l' in option:
-        for l in git_graph.local_branches:
-            dot_graph.node(l, label=l[:short], fillcolor="#9999ff")  # violet
-            e = git_graph.local_branches[l]
+                    self.edge(l, e)
+        if 'h' in option:
+            h = git_graph.local_head[0]
+            self.node(h, label=h[:short], fillcolor="#e6ccff")  # pale violet
+            e = git_graph.local_head[1]
             if e in node_set:
-                dot_graph.edge(l, e)
-    if 'h' in option:
-        h = git_graph.local_head[0]
-        dot_graph.node(h, label=h[:short], fillcolor="#e6ccff")  # pale violet
-        e = git_graph.local_head[1]
-        if e in node_set:
-            dot_graph.edge(h, e)
-    if 'r' in option:
-        for r in git_graph.remote_branches:
-            dot_graph.node(r, label=r[r.find('/') + 1:][:short], fillcolor="#ffa366")  # orange
-            e = git_graph.remote_branches[r]
-            if e in node_set:
-                dot_graph.edge(r, e)
-    if 'd' in option:
-        for d in git_graph.remote_heads:
-            dot_graph.node(d, label=d[d.find('/') + 1:][:short], fillcolor="#ffbeb3")  # pale orange
-            e = git_graph.remote_heads[d]
-            if e in node_set:
-                dot_graph.edge(d, e)
-    if 's' in option:
-        for s in git_graph.remote_servers:
-            dot_graph.node(s, label=s[:short], fillcolor="#ff6666")  # red
-            for e in git_graph.remote_servers[s]:
+                self.edge(h, e)
+        if 'r' in option:
+            for r in git_graph.remote_branches:
+                self.node(r, label=r[r.find('/') + 1:][:short], fillcolor="#ffa366")  # orange
+                e = git_graph.remote_branches[r]
                 if e in node_set:
-                    dot_graph.edge(s, e)
-    if 'a' in option:
-        for a in git_graph.annotated_tags:
-            dot_graph.node(a, label=a[:short], fillcolor="#ffdf80")  # pale yellow
-            e = git_graph.annotated_tags[a]
-            if e in node_set:
-                dot_graph.edge(a, e)
-    if 'g' in option:
-        for g in git_graph.tags:
-            dot_graph.node(g, label=g[:short], fillcolor="#ffc61a")  # yellow
-            e = git_graph.tags[g]
-            if e in node_set:
-                dot_graph.edge(g, e)
-    if 'u' in option:  # no color (only edges)
-        for u in git_graph.upstreams:
-            e = git_graph.upstreams[u]
-            if e in node_set:
-                dot_graph.edge(u, e)
-    return dot_graph
+                    self.edge(r, e)
+        if 'd' in option:
+            for d in git_graph.remote_heads:
+                self.node(d, label=d[d.find('/') + 1:][:short], fillcolor="#ffbeb3")  # pale orange
+                e = git_graph.remote_heads[d]
+                if e in node_set:
+                    self.edge(d, e)
+        if 's' in option:
+            for s in git_graph.remote_servers:
+                self.node(s, label=s[:short], fillcolor="#ff6666")  # red
+                for e in git_graph.remote_servers[s]:
+                    if e in node_set:
+                        self.edge(s, e)
+        if 'a' in option:
+            for a in git_graph.annotated_tags:
+                self.node(a, label=a[:short], fillcolor="#ffdf80")  # pale yellow
+                e = git_graph.annotated_tags[a]
+                if e in node_set:
+                    self.edge(a, e)
+        if 'g' in option:
+            for g in git_graph.tags:
+                self.node(g, label=g[:short], fillcolor="#ffc61a")  # yellow
+                e = git_graph.tags[g]
+                if e in node_set:
+                    self.edge(g, e)
+        if 'u' in option:  # no color (only edges)
+            for u in git_graph.upstreams:
+                e = git_graph.upstreams[u]
+                if e in node_set:
+                    self.edge(u, e)
+
+    def persist(self, form='pdf', show=True):
+        self.format = form
+        path = self.path + '/.gitGraph/'
+        if not pathlib.Path(path).is_dir():
+            pathlib.Path(path).mkdir()
+        file = tempfile.mkstemp(prefix='auto.', suffix='.dot', dir=path)[1]
+        if show:
+            self.view(file)
+        else:
+            self.render(file)

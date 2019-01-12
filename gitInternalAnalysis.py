@@ -22,6 +22,8 @@ import dot_graph as dg
 
 path = 'examples/branch'
 
-dg.build_dot_graph(path, option='bt')
+dg.DotGraph(path, option='bt')
 
-dg.render(dg.build_dot_graph(path))
+dg.DotGraph(path).persist()
+
+dg.DotGraph(path).persist(form='svg', show=False)
