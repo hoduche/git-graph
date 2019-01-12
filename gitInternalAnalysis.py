@@ -8,9 +8,9 @@
 #       format_version: '1.3'
 #       jupytext_version: 0.8.6
 #   kernelspec:
-#     display_name: Python [conda env:jupy3]
+#     display_name: jupy3
 #     language: python
-#     name: conda-env-jupy3-py
+#     name: jupy3
 # ---
 
 # %load_ext autoreload
@@ -18,10 +18,10 @@
 # %autosave 0
 import git_graph as gg
 import git_functions as gf
-import git_graph_display as gd
+import dot_graph as dg
 
 path = 'examples/branch'
 
-gd.build_dot_graph(path, option='bt')
+dg.build_dot_graph(path, option='bt')
 
-gd.render(gd.build_dot_graph(path))
+dg.render(dg.build_dot_graph(path))
