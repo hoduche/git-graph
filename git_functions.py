@@ -48,7 +48,7 @@ def get_git_local_head(path):
         return symbolic_ref[0][len(lbr):]
     else:
         commit = execute_git_command(path, 'rev-parse HEAD')
-        return commit
+        return commit[0]
 
 
 def get_git_remote_heads(path):
