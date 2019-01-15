@@ -8,9 +8,9 @@
 #       format_version: '1.3'
 #       jupytext_version: 0.8.6
 #   kernelspec:
-#     display_name: jupy3
+#     display_name: Python [conda env:jupy3]
 #     language: python
-#     name: jupy3
+#     name: conda-env-jupy3-py
 # ---
 
 # %load_ext autoreload

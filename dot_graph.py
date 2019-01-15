@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+import argparse
 import tempfile
 
 import graphviz
@@ -6,6 +9,7 @@ import pathlib
 import git_graph as gg
 
 full_option = 'dchatsglurb'
+default_format = 'pdf'
 short = 7
 
 
@@ -108,7 +112,7 @@ class DotGraph(graphviz.Digraph):
                 if e in node_set:
                     self.edge(u, e)
 
-    def persist(self, form='pdf', show=True):
+    def persist(self, form=default_format, show=True):
         self.format = form
         path = self.path + '/.gitGraph/'
         if not pathlib.Path(path).is_dir():
@@ -118,3 +122,14 @@ class DotGraph(graphviz.Digraph):
             self.view(file)
         else:
             self.render(file)
+
+
+if __name__ == '__main__':
+    arg_parser = argparse.ArgumentParser(description='Save and show your git repository')
+    arg_parser.add_argument('-p', '--repo', type=str, default='.', help='Path to your git repository')
+    arg_parser.add_argument('-o', '--option', type=str, default=full_option, help='Type of nodes to display')
+    arg_parser.add_argument('-f', '--format', type=str, default=default_format, help='Graph output format')
+#    arg_parser.add_argument('-s', '--show', action='store_false', help='popup graph output')
+    args = arg_parser.parse_args()
+
+    DotGraph(args.repo, option=args.option).persist(form=args.format, show=False)
