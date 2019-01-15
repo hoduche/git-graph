@@ -1,3 +1,35 @@
+#######################################
+# create conda environment
+#######################################
+# conda create -n git
+# source activate git
+# while read requirement; do conda install --yes $requirement; done < requirements.txt
+
+#######################################
+# run python module in interpreter
+#######################################
+# python
+# >>> import dot_graph as dg
+# >>> dg.DotGraph('.').persist(show=False)
+
+#######################################
+# run python program
+#######################################
+# python dot_graph.py examples/demo/ -o bt -f png
+# python -m dot_graph examples/demo/ -o bt -f png
+
+#######################################
+# run python program with shebang
+#######################################
+# ./dot_graph.py examples/demo/ -o btc -f svg
+
+#######################################
+# run python program with link in PATH
+#######################################
+# ln -s ~/workspace/git-graph/dot_graph.py /home/hduche/conda/envs/git/bin/gg
+# cd examples/demo
+# gg . -f png
+
 
 Learning Git can seem daunting because of its impressive number of commands.
 However, Git is so wonderfully lightweight that it is a very good practice to check the impact of a command on a test repository.
