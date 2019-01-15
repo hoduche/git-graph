@@ -8,9 +8,9 @@
 #       format_version: '1.3'
 #       jupytext_version: 0.8.6
 #   kernelspec:
-#     display_name: Python [conda env:jupy3]
+#     display_name: jupy3
 #     language: python
-#     name: conda-env-jupy3-py
+#     name: jupy3
 # ---
 
 # %load_ext autoreload
@@ -22,7 +22,7 @@ import dot_graph as dg
 
 path = 'examples/branch'
 
-dg.DotGraph(path, option='bt')
+dg.DotGraph(path, nodes='bt')
 
 dg.DotGraph(path).persist()
 

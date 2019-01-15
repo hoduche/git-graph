@@ -15,20 +15,26 @@
 #######################################
 # run python program
 #######################################
-# python dot_graph.py examples/demo/ -o bt -f png
-# python -m dot_graph examples/demo/ -o bt -f png
+# python dot_graph.py -p examples/demo/ -n bt -f png
+# python -m dot_graph -p examples/demo/ -n bt -f png
 
 #######################################
 # run python program with shebang
 #######################################
-# ./dot_graph.py examples/demo/ -o btc -f svg
+# ./dot_graph.py -p examples/demo/ -n btc -f svg
 
 #######################################
 # run python program with link in PATH
 #######################################
 # ln -s ~/workspace/git-graph/dot_graph.py /home/hduche/conda/envs/git/bin/gg
 # cd examples/demo
-# gg . -f png
+# gg
+
+#######################################
+# run as git plugin
+#######################################
+# ln -s ~/workspace/git-graph/dot_graph.py /home/hduche/conda/envs/git/bin/git-graph
+# git graph
 
 
 Learning Git can seem daunting because of its impressive number of commands.
