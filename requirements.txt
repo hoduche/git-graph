@@ -1,3 +1,4 @@
+python>=3
 pytest
 python-graphviz
 setuptools

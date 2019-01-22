@@ -1,40 +1,35 @@
-#######################################
 # create conda environment
-#######################################
-# conda create -n git
-# source activate git
-# while read requirement; do conda install --yes $requirement; done < requirements.txt
+conda create -n git
+source activate git (conda activate git on windows)
+conda install --file requirements.txt
 
-#######################################
 # run python module in interpreter
-#######################################
-# python
-# >>> import dot_graph as dg
-# >>> dg.DotGraph('.').persist(show=False)
+cd git-graph
+python
+>>> import dot_graph as dg
+>>> dg.DotGraph('..').persist(show=False)
+>>> dg.DotGraph('../examples/demo', nodes='btc').persist(form='svg', show=False)
 
-#######################################
 # run python program
-#######################################
-# python dot_graph.py -p examples/demo/ -n bt -f png
-# python -m dot_graph -p examples/demo/ -n bt -f png
+python git-graph/dot_graph.py
+python git-graph/dot_graph.py -p examples/demo -n btc -f svg
 
-#######################################
 # run python program with shebang
-#######################################
-# ./dot_graph.py -p examples/demo/ -n btc -f svg
+./git-graph/dot_graph.py
+./git-graph/dot_graph.py -p examples/demo -n btc -f svg
 
-#######################################
 # run python program with link in PATH
-#######################################
-# ln -s ~/workspace/git-graph/dot_graph.py /home/hduche/conda/envs/git/bin/gg
-# cd examples/demo
-# gg
+ln -s ~/workspace/git-graph/git-graph/dot_graph.py /home/hduche/conda/envs/git/bin/gg
+cd examples/demo
+gg
+gg -p examples/demo -n btc -f svg
 
-#######################################
 # run as git plugin
-#######################################
-# ln -s ~/workspace/git-graph/dot_graph.py /home/hduche/conda/envs/git/bin/git-graph
-# git graph
+ln -s ~/workspace/git-graph/git-graph/dot_graph.py /home/hduche/conda/envs/git/bin/git-graph
+git graph
+git graph -p examples/demo -n btc -f svg
+
+
 
 
 Learning Git can seem daunting because of its impressive number of commands.
