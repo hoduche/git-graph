@@ -125,7 +125,7 @@ class DotGraph(graphviz.Digraph):
             self.render(file)
 
 
-if __name__ == '__main__':
+def main():
     arg_parser = argparse.ArgumentParser(description='Save and show your git repository as a graph')
     arg_parser.add_argument('-p', '--path', type=str, default=CURRENT_FOLDER, help='Path to your git repository')
     arg_parser.add_argument('-n', '--nodes', type=str, default=ALL_NODES, help='Node types to display')
@@ -133,3 +133,7 @@ if __name__ == '__main__':
     args = arg_parser.parse_args()
 
     DotGraph(args.path, nodes=args.nodes).persist(form=args.format, show=False)
+
+
+if __name__ == '__main__':
+    main()
