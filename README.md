@@ -10,7 +10,7 @@ Git-graph is a git plugin written in Python that displays your git repository's 
 This visual representation of git internal data before and after each command considerably improves the learning curve.   
 
 # create conda environment
-conda create -n git
+conda create -n git python=3
 source activate git (conda activate git on windows)
 conda install --file requirements.txt
 
