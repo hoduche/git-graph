@@ -2,6 +2,9 @@
 .idea/
 .ipynb_checkpoints/
 __pycache__/
+build/
+dist/
 examples/
+git_graph.egg-info/
 auto.*
 *.pyc
