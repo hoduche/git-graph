@@ -1,9 +1,9 @@
 #######################################
 # create conda environment
 #######################################
-# conda create -n git
+# conda create -n git python=3
 # source activate git
-# while read requirement; do conda install --yes $requirement; done < requirements.txt
+# conda install --file requirements.txt
 
 #######################################
 # run python module in interpreter
@@ -33,7 +33,7 @@
 #######################################
 # run as git plugin
 #######################################
-# ln -s ~/workspace/git-graph/dot_graph.py /home/hduche/conda/envs/git/bin/git-graph
+# ln -s ~/workspace/git-graph/git-graph/dot_graph.py /home/hduche/conda/envs/git/bin/git-graph
 # git graph
 
 
