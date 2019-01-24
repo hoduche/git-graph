@@ -1,3 +1,286 @@
+[‎1/‎9/‎2019 5:26 PM]  Marc Wouts:
+https://mybinder.org/v2/gh/hoduche/git-graph/master
+
+[‎1/‎18/‎2019 3:56 PM]  Henri-Olivier Duche:
+Salut Marc.
+Je travaille sur le packaging de mon application git-graph (en python).
+Aurais-tu des conseils à me donner
+1. sur la structure du projet (setup.py, requirements, tests ...)
+2. sur les repos sur lesquels je dois livrer des choses (GitHUb, PyPI, conda, medium ...)
+
+[‎1/‎18/‎2019 3:57 PM]  Marc Wouts:
+Oui bien sûr !
+
+[‎1/‎18/‎2019 3:57 PM]  Henri-Olivier Duche:
+Cool.
+
+[‎1/‎18/‎2019 3:57 PM]  Marc Wouts:
+1. Il y a beaucoup de doc sur ce sujet
+je pense que la première étape
+c'est de faire marcher les tests en local
+puis de les déployer sur travis-ci
+Ainsi, tu auras validé ton setup.py, tes tests, et tes requirements
+
+[‎1/‎18/‎2019 3:59 PM]  Marc Wouts:
+2. Dans l'ordre: github / pypi / medium / conda
+
+[‎1/‎18/‎2019 3:59 PM]  Henri-Olivier Duche:
+Parfait :)
+
+[‎1/‎18/‎2019 3:59 PM]  Marc Wouts:
+laisse un peu de temps entre chaque etape pour être sur que ça marche !
+Ah, et pense à binder
+ce n'est pas mal pour tester le fichier 'requirements'
+
+[‎1/‎18/‎2019 4:01 PM]  Henri-Olivier Duche:
+Finalement j'ai penché plutôt vers un plugin git : on tape git graph en ligen de commande et ça crée une image
+Je ne sais plus trop si j'ai besoin d'un binder
+Je ne crois pas que je vais mettre un notebook dans le projet in fine
+
+[‎1/‎18/‎2019 4:02 PM]  Marc Wouts:
+ah pourquoi pas
+
+[‎1/‎18/‎2019 4:02 PM]  Henri-Olivier Duche:
+Pour travis-ci, tu as fait des tutoriaux sur leur site ?
+
+[‎1/‎18/‎2019 4:02 PM]  Marc Wouts:
+oui c'était assez facile
+
+[‎1/‎18/‎2019 4:02 PM]  Henri-Olivier Duche:
+parfait, je vais donc commencer par là ce weekend
+
+[‎1/‎18/‎2019 4:02 PM]  Marc Wouts:
+il faut juste écrire un fichier .travis.yml
+et bien sûr créer un compte chez travis
+
+[‎1/‎18/‎2019 4:03 PM]  Henri-Olivier Duche:
+Et je vais écrire un peu plus de tests car pour l'instant, c'est léger :)
+Merci beaucoup en tout cas.
+
+[‎1/‎18/‎2019 4:04 PM]  Marc Wouts:
+Jette un coup d'oeil à pytest-cov
+moi j'adore
+
+[‎1/‎18/‎2019 4:05 PM]  Henri-Olivier Duche:
+Je vais le faire
+
+[‎1/‎18/‎2019 4:05 PM]  Marc Wouts:
+https://codecov.io/gh/mwouts/jupytext/tree/1.0.0/jupytext
+
+[‎1/‎18/‎2019 4:05 PM]  Henri-Olivier Duche:
+Tu travailles en windows ou en linux chez toi ?
+
+[‎1/‎18/‎2019 4:05 PM]  Marc Wouts:
+Clique sur un fichier
+et tu vois les lignes non couvertes
+en windows
+avec la CI en linux
+ça fait une bonne couverture
+
+[‎1/‎18/‎2019 4:06 PM]  Henri-Olivier Duche:
+la CI en linux sur le site de travis ?
+Ils te fournissent une machine virtuelle ?
+
+[‎1/‎18/‎2019 4:06 PM]  Marc Wouts:
+Oui, par défaut c'est un environnement linux
+il y a des options pour tester d'autres OS
+que je n'ai pas étudiées
+
+[‎1/‎18/‎2019 4:07 PM]  Henri-Olivier Duche:
+C'est très bien comme ça
+Ton code est drolement bien couvert !
+
+[‎1/‎18/‎2019 4:07 PM]  Marc Wouts:
+Il fallait bien ça
+
+[‎1/‎18/‎2019 4:07 PM]  Henri-Olivier Duche:
+La page que tu m'as envoyée est générée par travis ?
+
+[‎1/‎18/‎2019 4:07 PM]  Marc Wouts:
+N'oublie pas que je suis débutant en python
+
+[‎1/‎18/‎2019 4:08 PM]  Henri-Olivier Duche:
+Je suis plus débutant python que toi
+
+[‎1/‎18/‎2019 4:08 PM]  Marc Wouts:
+https://github.com/mwouts/jupytext/blob/8d90a28d24ad0045ea6ba0320c96cf4dc7427535/.travis.yml#L26-L29
+C'est la commande codecov
+qui envoie les infos de coverage à codecov.io
+
+[‎1/‎18/‎2019 4:09 PM]  Henri-Olivier Duche:
+OK
+
+[‎1/‎9/‎2019 5:26 PM]  Marc Wouts:
+https://mybinder.org/v2/gh/hoduche/git-graph/master
+
+
+
+
+-------------------------------------
+
+[‎1/‎11/‎2019 5:25 PM]  Henri-Olivier Duche:
+Si je trouve le temps de faire un peu de dev ce weekend, tu me conseillerais qqch pour packager mes dépendances sur GitHub (graphviz et pathlib) ?
+
+[‎1/‎11/‎2019 5:25 PM]  Lamine Souiki:
+c'est son setup.py qui doit tirer ça de pip
+
+[‎1/‎11/‎2019 5:26 PM]  Henri-Olivier Duche:
+Même graphviz (le programme, pas la lib python) ?
+Et ça veut dire que les gens qui font git clone de mon projet doivent faire un pip install qqch après avoir fait git clone ?
+
+[‎1/‎11/‎2019 5:28 PM]  Lamine Souiki:
+Ca veut dire que les gens qui clonent ton truc doivent:
+faire un sudo apt-get/yum install de graphviz
+et faire un pip install .  # par exemple.
+
+[‎1/‎11/‎2019 5:29 PM]  Henri-Olivier Duche:
+Super merci.
+Et faire un binder d'un jupyter notebook, c'est utile aussi ?
+
+[‎1/‎11/‎2019 5:30 PM]  Lamine Souiki:
+Ouais, ça peut le faire aussi. Mais c'est plus rare de voir ça.
+
+[‎1/‎11/‎2019 5:30 PM]  Henri-Olivier Duche:
+OK l'un n'empêche pas l'autre, je vais commencer par ce que tu dis.
+Merci encore et bon weekend
+
+[‎1/‎24/‎2019 6:38 PM]  Lamine Souiki:
+pathlib; python_version < '3.0'
+meta.yaml:
+ requirements
+   build:
+   - pathlib #[py2k]
+
+[‎1/‎24/‎2019 6:56 PM]  Lamine Souiki:
+git-graph  renommé en git_graph
+dans le requirements.txt:  graphviz
+dans le entrypoint:
+
+dans dot-graph.py
+import git_graph.git_graph as gg
+dans git-graph.py:
+from . import git_functions as gf
+
+[‎1/‎24/‎2019 6:57 PM]  Lamine Souiki:
+dans le entry-point:
+from git_graph.dot_graph import main
+
+-------------------------------------
+
+pathlib is in standard library in python3 but must be imported in python2 and only with pip as there is no conda
+graphviz can be imported in pip but python-graphviz must be imported in conda instead
+pip environments do not find the dot executable
+
+-------------------------------------
+       graphviz 2.38.0 c'est le vrai dot en C, téléchargeable par conda uniquement (ou apt-get)
+       graphviz 0.10.1 c'est l'api python, téléchargée par pip
+python-graphviz 0.8.4  c'est l'api python, téléchargée par conda
+
+donc pip install graphviz installe
+graphviz                  0.10.1                    <pip>
+
+et conda install graphviz installe
+graphviz                  2.38.0              hc0b501a_12    cfm_current
+
+et conda install python-graphviz installe
+python-graphviz           0.8.4            py36h07884b1_3    cfm_current
+
+-------------------------------------
+office + python2 + pip
+-------------------------------------
+conda create -n o2p
+source activate o2p
+conda install pip
+pip install graphviz
+pip install pathlib
+python git-graph/dot_graph.py
+    the dot file is generated but the pdf is not because
+    raise ExecutableNotFound(cmd)
+    graphviz.backend.ExecutableNotFound: failed to execute ['dot', '-Tpdf', '-O', '/home/hduche/workspace/git-graph/.gitGraph/auto.Kk0Jew.dot'], make sure the Graphviz executables are on your systems' PATH
+
+conda list
+# packages in environment at /home/hduche/conda/envs/o2p:
+#
+graphviz                  0.10.1                    <pip>
+pathlib                   1.0.1                     <pip>
+pip                       9.0.1            py27hedf312d_1    cfm_current
+python                    2.7.13               hd4cba35_1    cfm_current
+setuptools                36.3.0           py27h2c15a6f_0    cfm_current
+wheel                     0.29.0           py27h0029886_0    cfm_current
+
+-------------------------------------
+office + python3 + pip
+-------------------------------------
+conda create -n o3p
+source activate o3p
+conda install python=3
+pip install graphviz
+python git-graph/dot_graph.py
+    the dot file is generated but the pdf is not because
+    raise ExecutableNotFound(cmd)
+    graphviz.backend.ExecutableNotFound: failed to execute ['dot', '-Tpdf', '-O', '/home/hduche/workspace/git-graph/.gitGraph/auto.jsy9euui.dot'], make sure the Graphviz executables are on your systems' PATH
+
+conda list
+# packages in environment at /home/hduche/conda/envs/o3p:
+#
+graphviz                  0.10.1                    <pip>
+libffi                    3.0.9                h4823ff6_2    cfm_current
+pip                       9.0.1            py36h82e8305_1    cfm_current
+python                    3.6.2                h46af431_3    cfm_current
+setuptools                36.3.0           py36hdd866b5_0    cfm_current
+wheel                     0.29.0           py36heecbd39_0    cfm_current
+
+-------------------------------------
+office + python2 + conda
+-------------------------------------
+conda create -n o2c
+source activate o2c
+conda install python-graphviz
+pip install pathlib
+python git-graph/dot_graph.py
+    ok but not the first time - I had to deactivate then reactivate again to see graphviz module
+    the order in the dot file is different than in python3
+    the graph is symetrical with respect to python3
+
+conda list
+# packages in environment at /home/hduche/conda/envs/o2c:
+#
+expat                     2.0.1                ha890ba6_1    cfm_current
+graphviz                  2.38.0              hc0b501a_12    cfm_current
+jpeg                      9c                   h99d5b2f_2    cfm_current
+pathlib                   1.0.1                     <pip>
+pip                       9.0.1            py27hedf312d_1    cfm_current
+python                    2.7.13               hd4cba35_1    cfm_current
+python-graphviz           0.8.4            py27hc1e39db_3    cfm_current
+setuptools                36.3.0           py27h2c15a6f_0    cfm_current
+wheel                     0.29.0           py27h0029886_0    cfm_current
+
+-------------------------------------
+office + python3 + conda
+-------------------------------------
+conda create -n o3c
+source activate o3c
+conda install python=3
+conda install python-graphviz
+python git-graph/dot_graph.py
+    ok but not the first time - I had to deactivate then reactivate again to see graphviz module
+
+conda list
+# packages in environment at /home/hduche/conda/envs/o3c:
+#
+expat                     2.0.1                ha890ba6_1    cfm_current
+graphviz                  2.38.0              hc0b501a_12    cfm_current
+jpeg                      9c                   h99d5b2f_2    cfm_current
+libffi                    3.0.9                h4823ff6_2    cfm_current
+pip                       9.0.1            py36h82e8305_1    cfm_current
+python                    3.6.2                h46af431_3    cfm_current
+python-graphviz           0.8.4            py36h07884b1_3    cfm_current
+setuptools                36.3.0           py36hdd866b5_0    cfm_current
+wheel                     0.29.0           py36heecbd39_0    cfm_current
+
+
+
+
 -------------------------------------
 git branch -vv --abbrev=0
 -------------------------------------
