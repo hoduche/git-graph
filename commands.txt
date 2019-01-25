@@ -1,3 +1,31 @@
+-------------------------------------
+doc Python Packaging User Guide
+-------------------------------------
+https://packaging.python.org/
+https://media.readthedocs.org/pdf/python-packaging-user-guide/latest/python-packaging-user-guide.pdf
+132 pages - 22 jan 2019
+
+https://python-packaging.readthedocs.io/en/latest/
+https://media.readthedocs.org/pdf/python-packaging/latest/python-packaging.pdf
+29 pages - v0.1 - 20 sep 2017
+
+-------------------------------------
+doc setuptools
+-------------------------------------
+https://setuptools.readthedocs.io/en/latest/
+https://media.readthedocs.org/pdf/setuptools/latest/setuptools.pdf
+203 pages - v40.6.3 - 24 dec 2018
+
+-------------------------------------
+doc conda
+-------------------------------------
+https://docs.conda.io/projects/conda-build/en/latest/index.html
+https://readthedocs.com/projects/continuumio-conda-build/downloads/pdf/latest/
+99 pages - 22 jan 2019
+
+
+
+-------------------------------------
 [‎1/‎9/‎2019 5:26 PM]  Marc Wouts:
 https://mybinder.org/v2/gh/hoduche/git-graph/master
 
