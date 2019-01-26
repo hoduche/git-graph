@@ -9,33 +9,24 @@ and experiment the effects of the command on it.
 Git-graph is a git plugin written in Python that displays your git repository's inner content as a Directed Acyclic Graph (DAG).
 This visual representation of git internal data before and after each command considerably improves the learning curve.   
 
-# create conda environment
-conda create -n git python=3
-source activate git (conda activate git on windows)
-conda install --file requirements.txt
+# install git-graph
+pip install git-graph
 
-# run python module in interpreter
-cd git-graph
-python
->>> import dot_graph as dg
->>> dg.DotGraph('..').persist(show=False)
->>> dg.DotGraph('../examples/demo', nodes='btc').persist(form='svg', show=False)
-
-# run python program
-python git-graph/dot_graph.py
-python git-graph/dot_graph.py -p examples/demo -n btc -f svg
-
-# run python program with shebang
-./git-graph/dot_graph.py
-./git-graph/dot_graph.py -p examples/demo -n btc -f svg
-
-# run python program with link in PATH
-ln -s ~/workspace/git-graph/git-graph/dot_graph.py /home/hduche/conda/envs/git/bin/gg
-cd examples/demo
-gg
-gg -p examples/demo -n btc -f svg
-
-# run as git plugin
-ln -s ~/workspace/git-graph/git-graph/dot_graph.py /home/hduche/conda/envs/git/bin/git-graph
+# run git-graph
 git graph
 git graph -p examples/demo -n btc -f svg
+
+# run python module in interpreter
+cd git_graph
+python
+>>> import dot_graph as dg
+>>> dg.DotGraph('..').persist(conceal=True)
+>>> dg.DotGraph('../examples/demo', nodes='btc').persist(form='svg', conceal=True)
+
+# run python program
+python git_graph/dot_graph.py
+python git_graph/dot_graph.py -p examples/demo -n btc -f svg
+
+# run python program with shebang
+./git_graph/dot_graph.py
+./git_graph/dot_graph.py -p examples/demo -n btc -f svg

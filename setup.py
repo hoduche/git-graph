@@ -16,7 +16,7 @@ def find_requirements():
 
 
 def find_version():
-    with open('git-graph/__init__.py', encoding='utf-8') as version_file:
+    with open('git_graph/__init__.py', encoding='utf-8') as version_file:
         pattern = '^__version__ = [\'\"]([^\'\"]*)[\'\"]'
         match = re.search(pattern, version_file.readline().strip())
         if match:
@@ -38,7 +38,7 @@ setup(
     install_requires=find_requirements(),
     python_requires='>=3',
     package_data={'examples': 'examples/*'},
-    entry_points={'console_scripts': ['git-graph = dot_graph:main']},
+    entry_points={'console_scripts': ['git-graph = git_graph.dot_graph:main']},
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",

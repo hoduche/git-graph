@@ -6,7 +6,7 @@ import tempfile
 import graphviz
 import pathlib
 
-import git_graph as gg
+import git_graph.git_graph as gg
 
 ALL_NODES = 'dchatsglurb'
 DEFAULT_FORMAT = 'pdf'
@@ -113,26 +113,28 @@ class DotGraph(graphviz.Digraph):
                 if e in node_set:
                     self.edge(u, e)
 
-    def persist(self, form=DEFAULT_FORMAT, show=True):
+    def persist(self, form=DEFAULT_FORMAT, conceal=True):
         self.format = form
         path = self.path + '/.gitGraph/'
         if not pathlib.Path(path).is_dir():
             pathlib.Path(path).mkdir()
         file = tempfile.mkstemp(prefix='auto.', suffix='.dot', dir=path)[1]
-        if show:
-            self.view(file)
-        else:
+        if conceal:
             self.render(file)
+        else:
+            self.view(file)
 
 
 def main():
     arg_parser = argparse.ArgumentParser(description='Save and show your git repository as a graph')
-    arg_parser.add_argument('-p', '--path', type=str, default=CURRENT_FOLDER, help='Path to your git repository')
-    arg_parser.add_argument('-n', '--nodes', type=str, default=ALL_NODES, help='Node types to display')
-    arg_parser.add_argument('-f', '--format', type=str, default=DEFAULT_FORMAT, help='Format of graph output')
+    arg_parser.add_argument('-p', '--path', type=str, action='store', default=CURRENT_FOLDER, help='path to your git repository')
+    arg_parser.add_argument('-n', '--nodes', type=str, action='store', default=ALL_NODES, help='node types to display')
+    arg_parser.add_argument('-f', '--format', type=str, action='store', default=DEFAULT_FORMAT, help='format of graph output')
+    arg_parser.add_argument('-c', '--conceal', dest='conceal', action='store_true', default=False, help='conceal graph')
+    arg_parser.add_argument('-s', '--show', dest='conceal', action='store_false', default=False, help='show graph')
     args = arg_parser.parse_args()
 
-    DotGraph(args.path, nodes=args.nodes).persist(form=args.format, show=False)
+    DotGraph(args.path, nodes=args.nodes).persist(form=args.format, conceal=args.conceal)
 
 
 if __name__ == '__main__':
