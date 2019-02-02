@@ -1,0 +1,5 @@
+digraph auto {
+	graph [bgcolor=transparent]
+	node [fixedsize=true style=filled width=0.95]
+	"015997188f3853a8912a9c1cf9cdd0b57cc5ee53" [label=0159971 fillcolor="#bc9b8f"]
+}

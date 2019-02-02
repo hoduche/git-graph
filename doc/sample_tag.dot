@@ -1,0 +1,5 @@
+digraph auto {
+	graph [bgcolor=transparent]
+	node [fixedsize=true style=filled width=0.95]
+	"v0.0.1" [label="v0.0.1" fillcolor="#ffc61a"]
+}

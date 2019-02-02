@@ -1,0 +1,48 @@
+{% set name = "git-graph" %}
+{% set version = "0.0.1.dev4" %}
+
+package:
+  name: "{{ name|lower }}"
+  version: "{{ version }}"
+
+source:
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: 7ff5698d3c6b93a95acd601dd6cb0db05194fcb7a526afc366d1daccfd2b41a6
+
+build:
+  number: 0
+  entry_points:
+    - git-graph = git_graph.dot_graph:main
+  script: "{{ PYTHON }} -m pip install . --no-deps --ignore-installed -vv "
+
+requirements:
+  host:
+    - graphviz
+    - pip
+    - pytest
+    - python
+    - setuptools
+  run:
+    - graphviz
+    - pytest
+    - python
+    - setuptools
+
+test:
+  imports:
+    - git_graph
+  commands:
+    - git-graph --help
+
+about:
+  home: https://github.com/hoduche/git-graph
+  license: MIT
+  license_family: MIT
+  license_file: 
+  summary: View your git repository as a graph
+  doc_url: 
+  dev_url: 
+
+extra:
+  recipe-maintainers:
+    - your-github-id-here

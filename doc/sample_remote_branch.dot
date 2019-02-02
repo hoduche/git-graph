@@ -1,0 +1,5 @@
+digraph auto {
+	graph [bgcolor=transparent]
+	node [fixedsize=true style=filled width=0.95]
+	"origin/master" [label=master fillcolor="#ffa366"]
+}

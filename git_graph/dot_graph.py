@@ -126,12 +126,37 @@ class DotGraph(graphviz.Digraph):
 
 
 def main():
-    arg_parser = argparse.ArgumentParser(description='Save and show your git repository as a graph')
-    arg_parser.add_argument('-p', '--path', type=str, action='store', default=CURRENT_FOLDER, help='path to your git repository')
-    arg_parser.add_argument('-n', '--nodes', type=str, action='store', default=ALL_NODES, help='node types to display')
-    arg_parser.add_argument('-f', '--format', type=str, action='store', default=DEFAULT_FORMAT, help='format of graph output')
-    arg_parser.add_argument('-c', '--conceal', dest='conceal', action='store_true', default=False, help='conceal graph')
-    arg_parser.add_argument('-s', '--show', dest='conceal', action='store_false', default=False, help='show graph')
+    example_text = '''examples:
+    git graph
+    git graph -p examples/demo -n btc -f svg
+    '''
+
+    node_text = '''node types to display in the graph: pick the letters corresponding to your choice (default is all)
+    | Node type      | Letter |
+    | -------------- | ------ |
+    | blob           | b      |
+    | tree           | t      |
+    | commit         | c      |
+    | local branche  | l      |
+    | local head     | h      |
+    | remote branche | r      |
+    | remote head    | d      |
+    | remote server  | s      |
+    | annotated tag  | a      |
+    | tag            | g      |
+    | upstream link  | u      |
+    '''
+
+    arg_parser = argparse.ArgumentParser(prog='git graph',
+                                         description='Save and display your Git repositories inner content '
+                                                     'as a Directed Acyclic Graph (DAG)',
+                                         epilog=example_text,
+                                         formatter_class=argparse.RawTextHelpFormatter)
+    arg_parser.add_argument('-p', '--path', type=str, action='store', default=CURRENT_FOLDER, help='path to your git repository (default is here)')
+    arg_parser.add_argument('-n', '--nodes', type=str, action='store', default=ALL_NODES, help=node_text)
+    arg_parser.add_argument('-f', '--format', type=str, action='store', default=DEFAULT_FORMAT, help='format of graph output: pdf, svg, png... (default is pdf)')
+    arg_parser.add_argument('-c', '--conceal', dest='conceal', action='store_true', default=False, help='conceal graph (deactivated by default)')
+    arg_parser.add_argument('-s', '--show', dest='conceal', action='store_false', default=False, help='show graph (activated by default)')
     args = arg_parser.parse_args()
 
     DotGraph(args.path, nodes=args.nodes).persist(form=args.format, conceal=args.conceal)
