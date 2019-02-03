@@ -41,7 +41,7 @@ To install Git-graph from GitHub:
     ```
     git clone https://github.com/hoduche/git-graph
     ```
-3. Finally you will have to run the setup.py file:
+3. Finally, inside the newly created git-graph folder, run (with Python 3 and setuptools):
     ```
     python setup.py install
     ```

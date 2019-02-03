@@ -26,7 +26,7 @@ def find_version():
 setup(
     name='git-graph',
     version=find_version(),
-    description='View your git repository as a graph',
+    description='Learn Git fast and well - by visualizing the inner graph of your Git repositories',
     long_description=find_long_description(),
     long_description_content_type='text/markdown',
     url='https://github.com/hoduche/git-graph',

@@ -1,5 +1,5 @@
 {% set name = "git-graph" %}
-{% set version = "0.0.1.dev4" %}
+{% set version = "0.0.1.dev5" %}
 
 package:
   name: "{{ name|lower }}"
@@ -39,7 +39,7 @@ about:
   license: MIT
   license_family: MIT
   license_file: 
-  summary: View your git repository as a graph
+  summary: Learn Git fast and well - by visualizing the inner graph of your Git repositories
   doc_url: 
   dev_url: 
 
