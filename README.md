@@ -62,7 +62,7 @@ Running `git graph` on a Git repository will:
 A color code helps in distinguishing in the graph the different kinds of object Git is using in its implementation:
 
 | Object kind    | Letter | Representation                                     | Object kind    | Letter | Representation                                     |
-| -------------- | ------ | -------------------------------------------------- | -------------- | ------ | -------------------------------------------------- |
+| -------------- | :----: | -------------------------------------------------- | -------------- | :----: | -------------------------------------------------- |
 | blob           | b      | ![blob](doc/sample_blob.dot.svg)                   | remote branche | r      | ![remote_branch](doc/sample_remote_branch.dot.svg) |
 | tree           | t      | ![tree](doc/sample_tree.dot.svg)                   | remote head    | d      | ![remote_head](doc/sample_remote_head.dot.svg)     |
 | commit         | c      | ![commit](doc/sample_commit.dot.svg)               | remote server  | s      | ![remote_server](doc/sample_remote_server.dot.svg) |
