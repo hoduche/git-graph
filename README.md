@@ -1,6 +1,6 @@
 # Git-graph
 
-#### Learn Git fast and well - *by revealing the inner graph of your Git repositories*
+### Learn Git fast and well - *by visualizing the inner graph of your Git repositories*
 ___
 
 ![full](doc/sample_full.dot.svg)
