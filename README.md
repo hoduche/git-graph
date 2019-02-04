@@ -8,23 +8,16 @@ ___
 > [Git is a fast, scalable, distributed revision control system with an unusually rich command set
 that provides both high-level operations and full access to internals.](https://git-scm.com/docs/git)
 
-The downside coming with this "unusually rich command set" is a kind of anxiety affecting beginners in particular:
+The downside coming with this "unusually rich command set" is a kind of anxiety affecting beginners in particular and that can be summarised as one question:
 >"What the hell is going to happen to my repository if I launch this command ?"
 
-A good way to overcome this difficulty is to experiment the effects of each new Git command on a dedicated test repository.
-This is made possible thanks to Git lightness and the fact it is immediately up and running in any new repository with `git init`.
+A good way to overcome this difficulty is to experiment the effects of each newly encountered Git command on a dedicated test repository.
+This is made possible thanks to Git lightness and the fact it is immediately up and running in any repository with `git init`.
 
 Git-graph is a Git plugin, written in Python, that displays your Git repositories inner content as a Directed Acyclic Graph (DAG).
 This structured visual representation of Git internal data demystifies the impact of each Git command and considerably improves the learning curve.
 
 ## Install
-
-#### From Conda
-Conda is the simplest option to install Git-graph:
-1. You just have to run:
-    ```
-    conda install git-graph
-    ```
 
 #### From PyPI
 To install Git-graph from PyPI:
