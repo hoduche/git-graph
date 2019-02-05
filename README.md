@@ -59,7 +59,7 @@ A color code helps in distinguishing in the graph the different kinds of object 
 | blob           | b      | ![blob](doc/sample_blob.dot.svg)                   | remote branche | r      | ![remote_branch](doc/sample_remote_branch.dot.svg) |
 | tree           | t      | ![tree](doc/sample_tree.dot.svg)                   | remote head    | d      | ![remote_head](doc/sample_remote_head.dot.svg)     |
 | commit         | c      | ![commit](doc/sample_commit.dot.svg)               | remote server  | s      | ![remote_server](doc/sample_remote_server.dot.svg) |
-| local branche  | l      | ![local_branch](doc/sample_local_branch.dot.svg)   | annotated tag  | a      | ![annotated tag](doc/sample_annotated_tag.dot.svg) |
+| local branche  | l      | ![local_branch](doc/sample_local_branch.dot.svg)   | annotated tag  | a      | ![annotated_tag](doc/sample_annotated_tag.dot.svg) |
 | local head     | h      | ![local_head](doc/sample_local_head.dot.svg)       | tag            | g      | ![tag](doc/sample_tag.dot.svg)                     |
 | upstream link  | u      | ![upstream](doc/sample_upstream.dot.svg)           |
 

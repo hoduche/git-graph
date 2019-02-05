@@ -34,10 +34,10 @@ setup(
     author_email='hoduche@yahoo.fr',
     license='MIT',
     keywords='git directed acyclic graph dag graphviz dot',
-    packages=find_packages(exclude=['docs', 'tests*']),
+    packages=find_packages(),
+    include_package_data=True,
     install_requires=find_requirements(),
     python_requires='>=3',
-    package_data={'examples': 'examples/*'},
     entry_points={'console_scripts': ['git-graph = git_graph.dot_graph:main']},
     classifiers=[
         "Programming Language :: Python :: 3",
