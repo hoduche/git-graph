@@ -14,6 +14,18 @@ os.environ["GIT_AUTHOR_DATE"] = action_date
 os.environ["GIT_COMMITTER_DATE"] = action_date
 
 
+def system(*args, **kwargs):
+    """Execute the given bash command"""
+    kwargs.setdefault('stdout', subprocess.PIPE)
+    proc = subprocess.Popen(args, **kwargs)
+    out, _ = proc.communicate()
+    return out
+
+
+def git(path, *args):
+    print(system('git', *args, cwd=str(path)))
+
+
 def execute_command(command, path):
     subprocess.Popen(command, cwd=str(path), stdout=subprocess.PIPE).communicate()
 
@@ -33,12 +45,15 @@ def test_full_repo(tmp_path):
     assert file2.is_file()
     assert file2.read_text() == 'content file2.txt v1'
 
-    execute_command('git init', tmp_path)
+    git(tmp_path, 'init')
+#    execute_command('git init', tmp_path)
     assert len(list(tmp_path.iterdir())) == 3
     assert (tmp_path / '.git').is_dir()
 
-    execute_command('git add -A', tmp_path)
-    execute_command('git commit -m "commit1"', tmp_path)
+    git(tmp_path, 'add', '-A')
+#    execute_command('git add -A', tmp_path)
+    git(tmp_path, 'commit', '-m', 'commit1')
+#    execute_command('git commit -m "commit1"', tmp_path)
 
     dg.DotGraph(str(tmp_path)).persist()
 
