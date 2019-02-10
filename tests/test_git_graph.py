@@ -14,8 +14,8 @@ os.environ["GIT_AUTHOR_DATE"] = action_date
 os.environ["GIT_COMMITTER_DATE"] = action_date
 
 
-def execute_command(command, dir0):
-    subprocess.Popen(command, cwd=dir0, stdout=subprocess.PIPE).communicate()
+def execute_command(command, path):
+    subprocess.Popen(command, cwd=str(path), stdout=subprocess.PIPE).communicate()
 
 
 def test_full_repo(tmp_path):
