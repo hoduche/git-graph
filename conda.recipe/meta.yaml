@@ -1,5 +1,5 @@
 {% set name = "git-graph" %}
-{% set version = "0.0.1.dev5" %}
+{% set version = "0.0.1.dev8" %}
 
 package:
   name: "{{ name|lower }}"
@@ -21,12 +21,10 @@ requirements:
     - pip
     - pytest
     - python
-    - setuptools
   run:
     - graphviz
     - pytest
     - python
-    - setuptools
 
 test:
   imports:
@@ -38,11 +36,10 @@ about:
   home: https://github.com/hoduche/git-graph
   license: MIT
   license_family: MIT
-  license_file: 
+  license_file: LICENSE.txt
   summary: Learn Git fast and well - by visualizing the inner graph of your Git repositories
-  doc_url: 
-  dev_url: 
+  doc_url: https://github.com/hoduche/git-graph/blob/master/README.md
 
 extra:
   recipe-maintainers:
-    - your-github-id-here
+    - hoduche
