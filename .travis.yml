@@ -1,5 +1,6 @@
 language: python
 python:
+  - "3.5"
   - "3.6"
 
 
@@ -10,14 +11,11 @@ addons:
       - git
 
 
-# command to install dependencies
 install:
-  - pip install -r requirements.txt
   - sudo apt-get install graphviz
   - sudo apt-get install git
   - python setup.py install
 
 
-# command to run tests
 script:
   - pytest tests
