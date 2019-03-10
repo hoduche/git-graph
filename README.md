@@ -1,6 +1,6 @@
 # Git-graph
 
-### Learn Git fast and well - *by visualizing the inner graph of your Git repositories*
+### Learn (or teach) Git fast and well - *by visualizing the inner graph of your Git repositories*
 ___
 
 ![full](doc/sample_full.dot.svg)
@@ -8,11 +8,11 @@ ___
 > [Git is a fast, scalable, distributed revision control system with an unusually rich command set
 that provides both high-level operations and full access to internals.](https://git-scm.com/docs/git)
 
-The downside coming with this "unusually rich command set" is a kind of anxiety affecting beginners in particular and that can be summarised as one question:
->"What the hell is going to happen to my repository if I launch this command ?"
+As wonderful as it may be, there is a downside coming with this "unusually rich command set", a kind of anxiety that affects beginners in particular and can be summed up in one question:
+>"What the hell is going to happen to my repository if I launch this Git command ?"
 
-A good way to overcome this difficulty is to experiment the effects of each newly encountered Git command on a dedicated test repository.
-This is made possible thanks to Git lightness and the fact it is immediately up and running in any repository with `git init`.
+A good way to overcome this difficulty is to experiment.
+This is made easy thanks to Git lightness and the fact it is immediately up and running in any repository with `git init`.
 
 Git-graph is a Git plugin, written in Python, that displays your Git repositories inner content as a Directed Acyclic Graph (DAG).
 This structured visual representation of Git internal data demystifies the impact of each Git command and considerably improves the learning curve.

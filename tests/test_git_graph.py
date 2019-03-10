@@ -168,6 +168,15 @@ full_repo_dot_graph = """digraph auto {
 
 
 def test_remote_repo(tmp_path):
+    # resume from full_repo
+    # git tag v0.0.2 -am "good job"
+    # git remote add origin https://github.com/hoduche/git-empty.git
+    # git push -u origin master
+    # git checkout idea1
+    # git push -u origin idea1
+    # git checkout master
+    # git push origin --tags
+
     execute_bash_command(tmp_path, 'git clone https://github.com/hoduche/git-empty .')
     execute_bash_command(tmp_path, 'git checkout -b idea1 origin/idea1')
     execute_bash_command(tmp_path, 'git branch idea2 v0.0.1')

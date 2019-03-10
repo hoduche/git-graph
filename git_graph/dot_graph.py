@@ -8,10 +8,29 @@ import pathlib
 
 import git_graph.git_graph as gg
 
-ALL_NODES = 'dchatsglurb'
 DEFAULT_FORMAT = 'pdf'
 CURRENT_FOLDER = '.'
 SHORT = 7
+
+ALL = 'all'
+COMMITS = 'commits'
+BRANCHES = 'branches'
+
+ALL_NODES = 'dchatsglurb'
+COMMIT_NODES = ALL_NODES.replace('b', '').replace('t', '')
+BRANCH_NODES = COMMIT_NODES.replace('c', '')
+
+
+def handle_specific_node_sets(nodes=ALL_NODES):
+    if nodes == ALL:
+        result = ALL_NODES
+    elif nodes == COMMITS:
+        result = COMMIT_NODES
+    elif nodes == BRANCHES:
+        result = BRANCH_NODES
+    else:
+        result = nodes
+    return result
 
 
 def filter_nodes(git_graph, nodes=ALL_NODES):
@@ -49,6 +68,7 @@ class DotGraph(graphviz.Digraph):
                                   node_attr={'style': 'filled', 'fixedsize': 'true', 'width': '0.95'})
         self.path = path
         git_graph = gg.GitGraph(self.path).build_graph()
+        nodes = handle_specific_node_sets(nodes)
         node_set = filter_nodes(git_graph, nodes)
         if 'b' in nodes:
             for b in git_graph.blobs:
@@ -131,7 +151,9 @@ def main():
     git graph -p examples/demo -n btc -f svg
     '''
 
-    node_text = '''node types to display in the graph: pick the letters corresponding to your choice (default is all)
+    node_text = '''node types to display in the graph (default is all).
+    'commits' and 'branches' will focus output on commits and branches respectively. 
+    For further control, you can also pick the letters corresponding to your choice:
     | Node type      | Letter |
     | -------------- | ------ |
     | blob           | b      |
