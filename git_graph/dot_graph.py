@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import argparse
-import tempfile
+import datetime
 
 import graphviz
 import pathlib
@@ -135,14 +135,17 @@ class DotGraph(graphviz.Digraph):
 
     def persist(self, form=DEFAULT_FORMAT, conceal=True):
         self.format = form
-        path = self.path + '/.gitGraph/'
-        if not pathlib.Path(path).is_dir():
-            pathlib.Path(path).mkdir()
-        file = tempfile.mkstemp(prefix='auto.', suffix='.dot', dir=path)[1]
+        path = pathlib.Path(self.path) / '.gitGraph'
+        if not path.is_dir():
+            path.mkdir()
+        dot_file_name = datetime.datetime.now().strftime('%Y_%m_%d_%H_%M_%S_git_graph.dot')
+        dot_file = path / dot_file_name
         if conceal:
-            self.render(file)
+            self.render(dot_file)
         else:
-            self.view(file)
+            self.view(dot_file)
+        image_file_name = dot_file_name + '.' + self.format
+        return image_file_name
 
 
 def main():
@@ -181,7 +184,8 @@ def main():
     arg_parser.add_argument('-s', '--show', dest='conceal', action='store_false', default=False, help='show graph (activated by default)')
     args = arg_parser.parse_args()
 
-    DotGraph(args.path, nodes=args.nodes).persist(form=args.format, conceal=args.conceal)
+    file = DotGraph(args.path, nodes=args.nodes).persist(form=args.format, conceal=args.conceal)
+    print(file + ' saved in .gitGraph')
 
 
 if __name__ == '__main__':
