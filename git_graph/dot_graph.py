@@ -6,7 +6,7 @@ import datetime
 import graphviz
 import pathlib
 
-import git_graph.git_graph as gg
+import git_graph.git_graph_class as gg
 
 DEFAULT_FORMAT = 'pdf'
 CURRENT_FOLDER = '.'
@@ -19,6 +19,16 @@ BRANCHES = 'branches'
 ALL_NODES = 'dchatsglurb'
 COMMIT_NODES = ALL_NODES.replace('b', '').replace('t', '')
 BRANCH_NODES = COMMIT_NODES.replace('c', '')
+
+
+def get_git_repository(path):
+    if (path / '.git').is_dir():
+        return path
+    else:
+        parents = pathlib.Path(path).resolve().parents
+        for each in parents:
+            if (each / '.git').is_dir():
+                return each
 
 
 def handle_specific_node_sets(nodes=ALL_NODES):
@@ -184,8 +194,14 @@ def main():
     arg_parser.add_argument('-s', '--show', dest='conceal', action='store_false', default=False, help='show graph (activated by default)')
     args = arg_parser.parse_args()
 
-    file = DotGraph(args.path, nodes=args.nodes).persist(form=args.format, conceal=args.conceal)
-    print(file + ' saved in .gitGraph')
+    git_path = get_git_repository(pathlib.Path(args.path))
+    if git_path is not None:
+        # todo change str to pathlib
+        file = DotGraph(str(git_path), nodes=args.nodes).persist(form=args.format, conceal=args.conceal)
+        git_graph_path = git_path.resolve() / '.gitGraph'
+        print(f'{file} saved in {git_graph_path}')
+    else:
+        print('Not a git repository')
 
 
 if __name__ == '__main__':
