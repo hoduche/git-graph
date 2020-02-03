@@ -72,12 +72,12 @@ def filter_nodes(git_graph, nodes=ALL_NODES):
 
 class DotGraph(graphviz.Digraph):
 
-    def __init__(self, path, nodes=ALL_NODES):
+    def __init__(self, git_path, nodes=ALL_NODES):
         graphviz.Digraph.__init__(self, name='auto',
                                   graph_attr={'bgcolor': 'transparent'},
                                   node_attr={'style': 'filled', 'fixedsize': 'true', 'width': '0.95'})
-        self.path = path
-        git_graph = gg.GitGraph(self.path).build_graph()
+        self.git_path = git_path
+        git_graph = gg.GitGraph(self.git_path).build_graph()
         nodes = handle_specific_node_sets(nodes)
         node_set = filter_nodes(git_graph, nodes)
         if 'b' in nodes:
@@ -145,11 +145,11 @@ class DotGraph(graphviz.Digraph):
 
     def persist(self, form=DEFAULT_FORMAT, conceal=True):
         self.format = form
-        path = pathlib.Path(self.path) / '.gitGraph'
-        if not path.is_dir():
-            path.mkdir()
+        git_graph_path = self.git_path / '.gitGraph'
+        if not git_graph_path.is_dir():
+            git_graph_path.mkdir()
         dot_file_name = datetime.datetime.now().strftime('%Y_%m_%d_%H_%M_%S_git_graph.dot')
-        dot_file = path / dot_file_name
+        dot_file = git_graph_path / dot_file_name
         if conceal:
             self.render(dot_file)
         else:
@@ -196,8 +196,7 @@ def main():
 
     git_path = get_git_repository(pathlib.Path(args.path))
     if git_path is not None:
-        # todo change str to pathlib
-        file = DotGraph(str(git_path), nodes=args.nodes).persist(form=args.format, conceal=args.conceal)
+        file = DotGraph(git_path, nodes=args.nodes).persist(form=args.format, conceal=args.conceal)
         git_graph_path = git_path.resolve() / '.gitGraph'
         print(f'{file} saved in {git_graph_path}')
     else:

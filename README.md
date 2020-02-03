@@ -12,9 +12,9 @@ As wonderful as it may be, there is a downside coming with this "unusually rich 
 > "What the hell is going to happen to my repository if I launch this Git command ?"
 
 A good way to overcome this difficulty is to experiment.
-This is made easy thanks to Git lightness and the fact it is immediately up and running in any repository with `git init`.
+This is made easy thanks to Git lightness and the fact it is immediately up and running in any directory with `git init`.
 
-Git-graph is a Git plugin, written in Python, that displays your Git repositories inner content as a [Directed Acyclic Graph](https://en.wikipedia.org/wiki/Directed_acyclic_graph) (DAG).
+Git-graph is a Git plugin, written in Python, that displays your Git repository inner content as a [Directed Acyclic Graph](https://en.wikipedia.org/wiki/Directed_acyclic_graph) (DAG).
 This structured visual representation of Git internal data demystifies the impact of each Git command and considerably improves the learning curve.
 
 ## Install
@@ -42,12 +42,12 @@ To install Git-graph from GitHub:
 ## Run
 
 #### As a Git plugin
-Git-graph is a Git plugin that is run at the root of a Git repository with the command:
+Git-graph is a Git plugin that is run from a Git repository with the command:
 ```
 git graph
 ```
 
-Running `git graph` on a Git repository will:
+Running `git graph` from a Git repository will:
 1. scan your `.git` folder
 2. build and save a graph representation of the `.git` folder internals as text (`.dot`) and image (PDF by default) in a `.gitGraph` folder
 3. popup a window that displays the image of your graph
@@ -70,7 +70,7 @@ For instance to only display blobs, trees and commits:
 git graph -n btc
 ```
 
-By default Git-graph considers it is launched from the root of a Git repository (i.e. where a `.git` folder can be found).
+By default Git-graph considers it is launched from a Git repository.
 It is possible to indicate the path to another Git repository with the `-p` or `--path` option:
 ```
 git graph -p examples/demo
