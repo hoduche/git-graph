@@ -25,7 +25,7 @@ def get_git_repository(path):
     if (path / '.git').is_dir():
         return path
     else:
-        parents = pathlib.Path(path).resolve().parents
+        parents = path.resolve().parents
         for each in parents:
             if (each / '.git').is_dir():
                 return each

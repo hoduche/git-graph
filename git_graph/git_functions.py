@@ -1,4 +1,3 @@
-import pathlib
 import subprocess
 
 lbr = 'refs/heads/'
@@ -7,11 +6,11 @@ tr = 'refs/tags/'
 
 
 def execute_git_command(path, command):
-    is_repo = pathlib.Path(path + '/.git').is_dir()
+    is_repo = (path / '.git').is_dir()
     if not is_repo:
         print('Not a git repository')
         return []
-    bash_command = 'git -C ' + path + ' ' + command
+    bash_command = 'git -C ' + str(path) + ' ' + command
     output, error = subprocess.Popen(bash_command.split(), stdout=subprocess.PIPE).communicate()
     if not error:
         output = output.decode('utf-8')

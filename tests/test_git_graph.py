@@ -42,7 +42,7 @@ def test_minimal_repo(tmp_path):
     execute_bash_command(tmp_path, 'git add -A')
     execute_bash_command(tmp_path, 'git commit -m commit1')
 
-    dg.DotGraph(str(tmp_path)).persist()
+    dg.DotGraph(tmp_path).persist()
 
     assert len(list(tmp_path.iterdir())) == 4
     assert (tmp_path / '.gitGraph').is_dir()
@@ -108,7 +108,7 @@ def test_full_repo(tmp_path):
     execute_bash_command(tmp_path, 'git merge idea1 --no-edit')
 #    execute_bash_command(tmp_path, 'git tag v0.0.2 -am "good job"')
 
-    dg.DotGraph(str(tmp_path)).persist()
+    dg.DotGraph(tmp_path).persist()
     dot_file_path = list((tmp_path / '.gitGraph').glob('*.dot'))[0]
     with open(dot_file_path) as dot_file:
         dot_graph = dot_file.readlines()
@@ -181,7 +181,7 @@ def test_remote_repo(tmp_path):
     execute_bash_command(tmp_path, 'git checkout -b idea1 origin/idea1')
     execute_bash_command(tmp_path, 'git branch idea2 v0.0.1')
 
-    dg.DotGraph(str(tmp_path)).persist()
+    dg.DotGraph(tmp_path).persist()
     dot_file_path = list((tmp_path / '.gitGraph').glob('*.dot'))[0]
     with open(dot_file_path) as dot_file:
         dot_graph = dot_file.readlines()
