@@ -21,4 +21,5 @@ install:
 
 
 script:
+  - flake8
   - pytest -vv
