@@ -12,7 +12,8 @@ def find_long_description():
 
 def find_requirements():
     with open('requirements.txt', encoding='utf-8') as requirements_file:
-        return [each_line.strip() for each_line in requirements_file.read().splitlines()]
+        return [each_line.strip()
+                for each_line in requirements_file.read().splitlines()]
 
 
 def find_version():
@@ -26,7 +27,8 @@ def find_version():
 setup(
     name='git-graph',
     version=find_version(),
-    description='Learn Git fast and well - by visualizing the inner graph of your Git repositories',
+    description='Learn Git fast and well '
+                '- by visualizing the inner graph of your Git repositories',
     long_description=find_long_description(),
     long_description_content_type='text/markdown',
     url='https://github.com/hoduche/git-graph',
@@ -38,7 +40,7 @@ setup(
     include_package_data=True,
     install_requires=find_requirements(),
     python_requires='>=3',
-    entry_points={'console_scripts': ['git-graph = git_graph.dot_graph:main']},
+    entry_points={'console_scripts': ['git-graph = git_graph.cli:main']},
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",

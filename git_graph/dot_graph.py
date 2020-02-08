@@ -1,10 +1,6 @@
-#!/usr/bin/env python
-
-import argparse
 import datetime
 
 import graphviz
-import pathlib
 
 import git_graph.git_graph_class as gg
 
@@ -75,7 +71,9 @@ class DotGraph(graphviz.Digraph):
     def __init__(self, git_path, nodes=ALL_NODES):
         graphviz.Digraph.__init__(self, name='auto',
                                   graph_attr={'bgcolor': 'transparent'},
-                                  node_attr={'style': 'filled', 'fixedsize': 'true', 'width': '0.95'})
+                                  node_attr={'style': 'filled',
+                                             'fixedsize': 'true',
+                                             'width': '0.95'})
         self.git_path = git_path
         git_graph = gg.GitGraph(self.git_path).build_graph()
         nodes = handle_specific_node_sets(nodes)
@@ -109,13 +107,15 @@ class DotGraph(graphviz.Digraph):
                 self.edge(h, e)
         if 'r' in nodes:
             for r in git_graph.remote_branches:
-                self.node(r, label=r[r.find('/') + 1:][:SHORT], fillcolor="#ffa366")  # orange
+                self.node(r, label=r[r.find('/') + 1:][:SHORT],
+                          fillcolor="#ffa366")  # orange
                 e = git_graph.remote_branches[r]
                 if e in node_set:
                     self.edge(r, e)
         if 'd' in nodes:
             for d in git_graph.remote_heads:
-                self.node(d, label=d[d.find('/') + 1:][:SHORT], fillcolor="#ffbeb3")  # pale orange
+                self.node(d, label=d[d.find('/') + 1:][:SHORT],
+                          fillcolor="#ffbeb3")  # pale orange
                 e = git_graph.remote_heads[d]
                 if e in node_set:
                     self.edge(d, e)
@@ -127,7 +127,8 @@ class DotGraph(graphviz.Digraph):
                         self.edge(s, e)
         if 'a' in nodes:
             for a in git_graph.annotated_tags:
-                self.node(a, label=a[:SHORT], fillcolor="#ffdf80")  # pale yellow
+                self.node(a, label=a[:SHORT],
+                          fillcolor="#ffdf80")  # pale yellow
                 e = git_graph.annotated_tags[a]
                 if e in node_set:
                     self.edge(a, e)
@@ -148,7 +149,8 @@ class DotGraph(graphviz.Digraph):
         git_graph_path = self.git_path / '.gitGraph'
         if not git_graph_path.is_dir():
             git_graph_path.mkdir()
-        dot_file_name = datetime.datetime.now().strftime('%Y_%m_%d_%H_%M_%S_git_graph.dot')
+        dot_file_name = datetime.datetime.now().strftime(
+            '%Y_%m_%d_%H_%M_%S_git_graph.dot')
         dot_file = git_graph_path / dot_file_name
         if conceal:
             self.render(dot_file)
@@ -156,52 +158,3 @@ class DotGraph(graphviz.Digraph):
             self.view(dot_file)
         image_file_name = dot_file_name + '.' + self.format
         return image_file_name
-
-
-def main():
-    example_text = '''examples:
-    git graph
-    git graph -p examples/demo -n btc -f svg
-    '''
-
-    node_text = '''node types to display in the graph (default is all).
-    'commits' and 'branches' will focus output on commits and branches respectively. 
-    For further control, you can also pick the letters corresponding to your choice:
-    | Node type      | Letter |
-    | -------------- | ------ |
-    | blob           | b      |
-    | tree           | t      |
-    | commit         | c      |
-    | local branche  | l      |
-    | local head     | h      |
-    | remote branche | r      |
-    | remote head    | d      |
-    | remote server  | s      |
-    | annotated tag  | a      |
-    | tag            | g      |
-    | upstream link  | u      |
-    '''
-
-    arg_parser = argparse.ArgumentParser(prog='git graph',
-                                         description='Save and display your Git repositories inner content '
-                                                     'as a Directed Acyclic Graph (DAG)',
-                                         epilog=example_text,
-                                         formatter_class=argparse.RawTextHelpFormatter)
-    arg_parser.add_argument('-p', '--path', type=str, action='store', default=CURRENT_FOLDER, help='path to your git repository (default is here)')
-    arg_parser.add_argument('-n', '--nodes', type=str, action='store', default=ALL_NODES, help=node_text)
-    arg_parser.add_argument('-f', '--format', type=str, action='store', default=DEFAULT_FORMAT, help='format of graph output: pdf, svg, png... (default is pdf)')
-    arg_parser.add_argument('-c', '--conceal', dest='conceal', action='store_true', default=False, help='conceal graph (deactivated by default)')
-    arg_parser.add_argument('-s', '--show', dest='conceal', action='store_false', default=False, help='show graph (activated by default)')
-    args = arg_parser.parse_args()
-
-    git_path = get_git_repository(pathlib.Path(args.path))
-    if git_path is not None:
-        file = DotGraph(git_path, nodes=args.nodes).persist(form=args.format, conceal=args.conceal)
-        git_graph_path = git_path.resolve() / '.gitGraph'
-        print(f'{file} saved in {git_graph_path}')
-    else:
-        print('Not a git repository')
-
-
-if __name__ == '__main__':
-    main()
