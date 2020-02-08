@@ -18,7 +18,8 @@ os.environ["GIT_COMMITTER_DATE"] = action_date
 
 
 def execute_bash_command(path, command):
-    output, error = subprocess.Popen(command.split(), cwd=str(path), stdout=subprocess.PIPE).communicate()
+    output, error = subprocess.Popen(command.split(), cwd=str(path),
+                                     stdout=subprocess.PIPE).communicate()
     if not error:
         return output
 
