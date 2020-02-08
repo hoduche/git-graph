@@ -6,19 +6,18 @@ tr = 'refs/tags/'
 
 
 def execute_git_command(path, command):
-    is_repo = (path / '.git').is_dir()
-    if not is_repo:
+    if not (path / '.git').is_dir():
         print('Not a git repository')
         return []
     bash_command = 'git -C ' + str(path) + ' ' + command
-    output, error = subprocess.Popen(bash_command.split(),
-                                     stdout=subprocess.PIPE).communicate()
-    if not error:
-        output = output.decode('utf-8')
-        return output.splitlines()
-    else:
+    try:
+        output = subprocess.run(bash_command.split(), stdout=subprocess.PIPE)
+    except subprocess.CalledProcessError:
         print('Not a git command')
         return []
+    else:
+        result = output.stdout.decode('utf-8').splitlines()
+        return result
 
 
 def read_git_file(path, sha1_file):

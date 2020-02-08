@@ -18,10 +18,10 @@ os.environ["GIT_COMMITTER_DATE"] = action_date
 
 
 def execute_bash_command(path, command):
-    output, error = subprocess.Popen(command.split(), cwd=str(path),
-                                     stdout=subprocess.PIPE).communicate()
-    if not error:
-        return output
+    try:
+        subprocess.run(command.split(), cwd=str(path))
+    except subprocess.CalledProcessError:
+        print('Not a bash command')
 
 
 def test_minimal_repo(tmp_path):
