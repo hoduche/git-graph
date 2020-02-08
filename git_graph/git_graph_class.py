@@ -52,21 +52,33 @@ class GitGraph:
 
     def __init__(self, path):
         self.path = path
-        self.blobs = []                            # b: -> nothing
-        self.trees = c.defaultdict(list)           # t: -> 0 to N blobs and 0 to N trees
-        self.commits = c.defaultdict(list)         # c: -> 1 tree and 0 to N commits
-        self.local_branches = {}                   # l: -> 1 commit
-        self.local_head = ('', '')                 # h: -> 1 local_branch
-        self.remote_branches = {}                  # r: -> 1 commit
-        self.remote_heads = {}                     # d: -> 1 remote branch
-        self.remote_servers = c.defaultdict(list)  # s: -> 1 to N remote_branches
-        self.annotated_tags = {}                   # a: -> 1 commit
-        self.tags = {}                             # g: -> 1 commit or 1 annotated_tag
-        self.upstreams = {}                        # u: -> 1 local_branch
+        # b: -> nothing
+        self.blobs = []
+        # t: -> 0 to N blobs and 0 to N trees
+        self.trees = c.defaultdict(list)
+        # c: -> 1 tree and 0 to N commits
+        self.commits = c.defaultdict(list)
+        # l: -> 1 commit
+        self.local_branches = {}
+        # h: -> 1 local_branch
+        self.local_head = ('', '')
+        # r: -> 1 commit
+        self.remote_branches = {}
+        # d: -> 1 remote branch
+        self.remote_heads = {}
+        # s: -> 1 to N remote_branches
+        self.remote_servers = c.defaultdict(list)
+        # a: -> 1 commit
+        self.annotated_tags = {}
+        # g: -> 1 commit or 1 annotated_tag
+        self.tags = {}
+        # u: -> 1 local_branch
+        self.upstreams = {}
 
     def build_graph(self):
         blobs, trees, commits, annotated_tags = gf.get_git_objects(self.path)
-        local_branches, remote_branches, tags = gf.get_git_references(self.path)
+        local_branches, remote_branches, tags = gf.get_git_references(
+            self.path)
         local_head = gf.get_git_local_head(self.path)
         remote_heads = gf.get_git_remote_heads(self.path)
         upstreams = gf.get_git_upstreams(self.path)
@@ -78,8 +90,10 @@ class GitGraph:
         self.local_head = ('HEAD', local_head)
         self.remote_branches = remote_branches
         self.remote_heads = remote_heads
-        self.remote_servers = build_git_remote_servers(remote_branches, remote_heads)
-        self.annotated_tags = build_git_annotated_tags(self.path, annotated_tags)
+        self.remote_servers = build_git_remote_servers(
+            remote_branches, remote_heads)
+        self.annotated_tags = build_git_annotated_tags(
+            self.path, annotated_tags)
         self.tags = tags
         self.upstreams = upstreams
         return self

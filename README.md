@@ -90,11 +90,11 @@ git graph -c
 
 #### As a Python program
 ```
-python git_graph/dot_graph.py -p examples/demo -n btc -f svg
+python git_graph/cli.py -p examples/demo -n btc -f svg
 ```
 or
 ```
-./git_graph/dot_graph.py -p examples/demo -n btc -f svg
+./git_graph/cli.py -p examples/demo -n btc -f svg
 ```
 
 #### As a Python module

@@ -11,7 +11,8 @@ def execute_git_command(path, command):
         print('Not a git repository')
         return []
     bash_command = 'git -C ' + str(path) + ' ' + command
-    output, error = subprocess.Popen(bash_command.split(), stdout=subprocess.PIPE).communicate()
+    output, error = subprocess.Popen(bash_command.split(),
+                                     stdout=subprocess.PIPE).communicate()
     if not error:
         output = output.decode('utf-8')
         return output.splitlines()
@@ -25,7 +26,8 @@ def read_git_file(path, sha1_file):
 
 
 def get_git_objects(path):
-    objects = [line.split() for line in execute_git_command(path, 'cat-file --batch-check --batch-all-objects')]
+    objects = [line.split() for line in execute_git_command(
+        path, 'cat-file --batch-check --batch-all-objects')]
     blobs = [obj[0] for obj in objects if obj[1] == 'blob']
     trees = [obj[0] for obj in objects if obj[1] == 'tree']
     commits = [obj[0] for obj in objects if obj[1] == 'commit']
@@ -34,10 +36,15 @@ def get_git_objects(path):
 
 
 def get_git_references(path):
-    references = [line.split() for line in execute_git_command(path, 'for-each-ref')]
-    local_branches = {ref[2][len(lbr):]: ref[0] for ref in references if ref[2].startswith(lbr)}
-    remote_branches = {ref[2][len(rbr):]: ref[0] for ref in references if ref[2].startswith(rbr) and '/HEAD' not in ref[2]}
-    tags = {ref[2][len(tr):]: ref[0] for ref in references if ref[2].startswith(tr)}
+    references = [line.split()
+                  for line in execute_git_command(path, 'for-each-ref')]
+    local_branches = {ref[2][len(lbr):]: ref[0]
+                      for ref in references if ref[2].startswith(lbr)}
+    remote_branches = {ref[2][len(rbr):]: ref[0]
+                       for ref in references
+                       if ref[2].startswith(rbr) and '/HEAD' not in ref[2]}
+    tags = {ref[2][len(tr):]: ref[0]
+            for ref in references if ref[2].startswith(tr)}
     return local_branches, remote_branches, tags
 
 
@@ -62,4 +69,3 @@ def get_git_upstreams(path):
     lines_split = [line[2:].split() for line in lines if '[' in line]
     upstreams = {ls[2][1:-1]: ls[0] for ls in lines_split}
     return upstreams
-
