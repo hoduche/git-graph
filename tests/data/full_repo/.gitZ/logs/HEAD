@@ -1,0 +1,9 @@
+0000000000000000000000000000000000000000 e53574e083bfb447086df95ad1214d87b6ae45c4 Bernard <author@cie.com> 1318672800 +0100	commit (initial): commit1
+e53574e083bfb447086df95ad1214d87b6ae45c4 e53574e083bfb447086df95ad1214d87b6ae45c4 Bernard <author@cie.com> 1318672800 +0100	checkout: moving from master to idea1
+e53574e083bfb447086df95ad1214d87b6ae45c4 01ccfc8a7031f57c92a694c727fc16a1b6f6a3c8 Bernard <author@cie.com> 1318672800 +0100	commit: commit2
+01ccfc8a7031f57c92a694c727fc16a1b6f6a3c8 e53574e083bfb447086df95ad1214d87b6ae45c4 Bernard <author@cie.com> 1318672800 +0100	checkout: moving from idea1 to master
+e53574e083bfb447086df95ad1214d87b6ae45c4 e53574e083bfb447086df95ad1214d87b6ae45c4 Bernard <author@cie.com> 1318672800 +0100	checkout: moving from master to idea2
+e53574e083bfb447086df95ad1214d87b6ae45c4 c99b3621c6f61f36a468d9da2f2f4cb6c2c7f834 Bernard <author@cie.com> 1318672800 +0100	commit: commit3
+c99b3621c6f61f36a468d9da2f2f4cb6c2c7f834 e53574e083bfb447086df95ad1214d87b6ae45c4 Bernard <author@cie.com> 1318672800 +0100	checkout: moving from idea2 to master
+e53574e083bfb447086df95ad1214d87b6ae45c4 c99b3621c6f61f36a468d9da2f2f4cb6c2c7f834 Bernard <author@cie.com> 1318672800 +0100	merge idea2: Fast-forward
+c99b3621c6f61f36a468d9da2f2f4cb6c2c7f834 3447a63ea27b15856a751c3f631546ad6c98d07a Bernard <author@cie.com> 1318672800 +0100	merge idea1: Merge made by the 'recursive' strategy.

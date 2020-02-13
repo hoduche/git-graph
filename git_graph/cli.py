@@ -8,7 +8,7 @@ from git_graph import __version__
 import git_graph.dot_graph as dg
 
 
-def main():
+def main(args=None):
     example_text = '''examples:
     git graph
     git graph -p examples/demo -n btc -f svg
@@ -51,7 +51,7 @@ def main():
                              '(default is pdf)')
     parser.add_argument('-c', '--conceal', action='store_true', default=False,
                         help='conceal graph (deactivated by default)')
-    args = parser.parse_args()
+    args = parser.parse_args(args=args)
 
     git_path = dg.get_git_repository(pathlib.Path(args.path))
     if git_path is not None:
@@ -59,6 +59,7 @@ def main():
         file = dot_graph.persist(form=args.format, conceal=args.conceal)
         git_graph_path = git_path.resolve() / '.gitGraph'
         print(f'{file} saved in {git_graph_path}')
+        return file
     else:
         print('Not a git repository')
 
