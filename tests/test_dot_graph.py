@@ -23,9 +23,21 @@ os.environ["GIT_AUTHOR_DATE"] = action_date
 os.environ["GIT_COMMITTER_DATE"] = action_date
 
 
-@pytest.mark.parametrize("git_repo_type, nb_files", git_repo_types)
-def test_repo(git_repo_type, nb_files, tmp_path):
-    build_repo(git_repo_type, tmp_path)
+@pytest.fixture(params=git_repo_types, ids=[i[0] for i in git_repo_types])
+def build_repo(request, tmp_path):
+    git_repo_type = request.param[0]
+    nb_files = request.param[1]
+    if git_repo_type == 'minimal_repo':
+        build_minimal_repo(tmp_path)
+    elif git_repo_type == 'full_repo':
+        build_full_repo(tmp_path)
+    elif git_repo_type == 'remote_repo':
+        build_remote_repo(tmp_path)
+    return git_repo_type, nb_files, tmp_path
+
+
+def test_repo(build_repo):
+    git_repo_type, nb_files, tmp_path = build_repo
 
     output_file = dg.DotGraph(tmp_path).persist()
 
@@ -50,15 +62,6 @@ def execute_bash_command(path, command):
         subprocess.run(command.split(), cwd=str(path))
     except subprocess.CalledProcessError:
         print('Not a bash command')
-
-
-def build_repo(git_repo_type, tmp_path):
-    if git_repo_type == 'minimal_repo':
-        build_minimal_repo(tmp_path)
-    elif git_repo_type == 'full_repo':
-        build_full_repo(tmp_path)
-    elif git_repo_type == 'remote_repo':
-        build_remote_repo(tmp_path)
 
 
 def build_minimal_repo(tmp_path):
