@@ -1,4 +1,5 @@
 import subprocess
+from pathlib import Path
 
 lbr = 'refs/heads/'
 rbr = 'refs/remotes/'
@@ -6,7 +7,7 @@ tr = 'refs/tags/'
 
 
 def execute_git_command(path, command):
-    if not (path / '.git').is_dir():
+    if not Path(str(path) + '/.git').is_dir():
         print('Not a git repository')
         return []
     bash_command = 'git -C ' + str(path) + ' ' + command

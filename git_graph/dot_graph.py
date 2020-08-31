@@ -1,4 +1,5 @@
 import datetime
+from pathlib import Path
 
 import graphviz
 
@@ -94,11 +95,11 @@ class DotGraph(graphviz.Digraph):
                     if e in node_set:
                         self.edge(c, e)
         if 'l' in nodes:
-            for l in git_graph.local_branches:
-                self.node(l, label=l[:SHORT], fillcolor="#9999ff")  # violet
-                e = git_graph.local_branches[l]
+            for br in git_graph.local_branches:
+                self.node(br, label=br[:SHORT], fillcolor="#9999ff")  # violet
+                e = git_graph.local_branches[br]
                 if e in node_set:
-                    self.edge(l, e)
+                    self.edge(br, e)
         if 'h' in nodes:
             h = git_graph.local_head[0]
             self.node(h, label=h[:SHORT], fillcolor="#e6ccff")  # pale violet
@@ -146,7 +147,7 @@ class DotGraph(graphviz.Digraph):
 
     def persist(self, form=DEFAULT_FORMAT, conceal=True):
         self.format = form
-        git_graph_path = self.git_path / '.gitGraph'
+        git_graph_path = Path(str(self.git_path) + '/.gitGraph')
         if not git_graph_path.is_dir():
             git_graph_path.mkdir()
         dot_file_name = datetime.datetime.now().strftime(
