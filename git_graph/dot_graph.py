@@ -95,11 +95,11 @@ class DotGraph(graphviz.Digraph):
                     if e in node_set:
                         self.edge(c, e)
         if 'l' in nodes:
-            for l in git_graph.local_branches:
-                self.node(l, label=l[:SHORT], fillcolor="#9999ff")  # violet
-                e = git_graph.local_branches[l]
+            for br in git_graph.local_branches:
+                self.node(br, label=br[:SHORT], fillcolor="#9999ff")  # violet
+                e = git_graph.local_branches[br]
                 if e in node_set:
-                    self.edge(l, e)
+                    self.edge(br, e)
         if 'h' in nodes:
             h = git_graph.local_head[0]
             self.node(h, label=h[:SHORT], fillcolor="#e6ccff")  # pale violet
