@@ -7,7 +7,7 @@ tr = 'refs/tags/'
 
 
 def execute_git_command(path, command):
-    if not Path(path + '/.git').is_dir():
+    if not Path(str(path) + '/.git').is_dir():
         print('Not a git repository')
         return []
     bash_command = 'git -C ' + str(path) + ' ' + command

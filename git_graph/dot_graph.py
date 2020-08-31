@@ -147,7 +147,7 @@ class DotGraph(graphviz.Digraph):
 
     def persist(self, form=DEFAULT_FORMAT, conceal=True):
         self.format = form
-        git_graph_path = Path(self.git_path + '/.gitGraph')
+        git_graph_path = Path(str(self.git_path) + '/.gitGraph')
         if not git_graph_path.is_dir():
             git_graph_path.mkdir()
         dot_file_name = datetime.datetime.now().strftime(
